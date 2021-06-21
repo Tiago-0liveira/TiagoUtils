@@ -34,11 +34,11 @@ public class Heal implements CommandExecutor {
                         player.sendMessage("heal triggered");
                         setMaxHealth(player);
                     }
-                    if (!Collections.disjoint(argslist, foodAliases)) {
+                    if (!Collections.disjoint(argslist,rPotionEffectsAliases)) {
                         player.sendMessage("rpe triggered");
                         removePotionEffects(player);
                     }
-                    if (!Collections.disjoint(argslist, rPotionEffectsAliases)) {
+                    if (!Collections.disjoint(argslist,foodAliases)) {
                         player.sendMessage("food triggered");
                         setMaxFood(player);
                     }
