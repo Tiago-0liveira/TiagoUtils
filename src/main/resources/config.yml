@@ -1,0 +1,9 @@
+commands:
+  Fly: true
+  God: true
+  Heal: true
+  opBow: true
+  opEnchant: true
+events:
+  onArrowCollides: true
+  onTreeCapitatorTrigger: true

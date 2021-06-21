@@ -1,0 +1,23 @@
+name: TiagoUtils
+version: ${project.version}
+main: me.tiago0liveira.TiagoUtils.TiagoUtils
+api-version: 1.17
+authors: [ tiagooo__ ]
+description: Utilities by @tiagooo__
+website: https://github.com/Tiago-0liveira
+commands:
+  fly:
+    description: Fly
+    usage: /fly
+  god:
+    description: God Mode
+    usage: /god
+  heal:
+    description: Heal, food, - potion ef.
+    usage: /heal
+  opEnchant:
+    description: Op enchants
+    usage: /opEnchant
+  opBow:
+    description: Op Arrows
+    usage: /opArrow <explosion|teleport>
