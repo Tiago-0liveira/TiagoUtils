@@ -49,7 +49,6 @@ public final class TiagoUtils extends JavaPlugin {
         getCommand("opBow").setExecutor(new opBow());
         getCommand("adminOptions").setExecutor(new AdminOptions());
         getCommand("setMachineGun").setExecutor(new setMachineGun());
-        getServer().getPluginManager().registerEvents(new onTreeCapitatorTrigger(), this);
         getServer().getPluginManager().registerEvents(new onArrowCollides(), this);
         getServer().getPluginManager().registerEvents(new onClickAdminOptionsMenu(), this);
         getServer().getPluginManager().registerEvents(new onRightClickForMachineGunBow(), this);

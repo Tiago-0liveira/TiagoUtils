@@ -16,6 +16,5 @@ public class Default {
         public static String onBadWeather = "onBadWeather";
         public static String onMachineGunHold = "onMachineGunHold";
         public static String onRightClickForMachineGunBow = "onRightClickForMachineGunBow";
-        public static String onTreeCapitatorTrigger = "onTreeCapitatorTrigger";
     }
 }
