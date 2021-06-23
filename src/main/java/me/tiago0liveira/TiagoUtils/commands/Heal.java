@@ -2,6 +2,7 @@ package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
@@ -22,11 +23,12 @@ public class Heal implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (TiagoUtils.options.getConfigurationSection("commands").getBoolean("Heal")) {
+            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Heal)) {
                 if (args.length == 0) {
                     setMaxHealth(player);
                     removePotionEffects(player);
                     setMaxFood(player);
+                    player.sendMessage(ChatColor.DARK_GRAY + "You just got fully " + ChatColor.GREEN + "healed" + ChatColor.DARK_GRAY + "!");
                 } else {
                     List<String> argsList = Arrays.asList(args);
                     if (someEqualsIgnore(argsList, "Heal")) {

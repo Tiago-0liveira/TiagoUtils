@@ -4,6 +4,7 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
 import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
 
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,7 +26,7 @@ public class opBow implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (TiagoUtils.options.getConfigurationSection("commands").getBoolean("opBow")) {
+            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.opBow)) {
                 if (args.length > 0) {
                     if (args[0].equalsIgnoreCase("explosion")) {
                         giveBow(player, BowType.EXPLOSION);

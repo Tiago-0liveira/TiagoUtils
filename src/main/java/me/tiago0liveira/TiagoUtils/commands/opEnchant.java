@@ -1,6 +1,7 @@
 package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +17,7 @@ public class opEnchant implements CommandExecutor {
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (TiagoUtils.options.getConfigurationSection("commands").getBoolean("opEnchant")) {
+            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.opEnchant)) {
                 ItemStack tool = player.getInventory().getItemInMainHand();
                 if (tool.getType().name().equalsIgnoreCase("STICK")) {
                     tool.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 20);

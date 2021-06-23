@@ -4,7 +4,10 @@ commands:
   Heal: true
   opBow: true
   opEnchant: true
+  setMachineGun: true
 events:
   onArrowCollides: true
-  onTreeCapitatorTrigger: true
   onBadWeather: true
+  onMachineGunHold: true
+  onRightClickForMachineGunBow: true
+  onTreeCapitatorTrigger: true

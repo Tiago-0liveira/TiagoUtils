@@ -1,6 +1,8 @@
 package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,7 +23,7 @@ public class onTreeCapitatorTrigger implements Listener {
     public void onCapitatorAxeBlockBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
 
-        if (TiagoUtils.options.getConfigurationSection("events").getBoolean("onTreeCapitatorTrigger")) {
+        if (TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.onTreeCapitatorTrigger)) {
             if (e.getBlock().getType().name().endsWith("_LOG")) {
                 ItemStack tool = player.getInventory().getItemInMainHand();
 

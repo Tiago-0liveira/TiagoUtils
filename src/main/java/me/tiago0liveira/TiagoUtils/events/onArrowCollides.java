@@ -2,6 +2,7 @@ package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -19,7 +20,7 @@ public class onArrowCollides implements Listener {
     public void onArrowCollides(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow) {
             Player player = (Player) e.getEntity().getShooter();
-            if (TiagoUtils.options.getConfigurationSection("events").getBoolean("onArrowCollides")) {
+            if (TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.onArrowCollides)) {
                 ItemStack bow = player.getInventory().getItemInMainHand();
                 ItemMeta meta = bow.getItemMeta();
                 if (meta != null) {

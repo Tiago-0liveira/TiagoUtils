@@ -4,13 +4,9 @@ import me.tiago0liveira.TiagoUtils.commands.*;
 import me.tiago0liveira.TiagoUtils.events.*;
 import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
 import org.bukkit.ChatColor;
-import org.bukkit.boss.BossBar;
-import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Iterator;
 
 public final class TiagoUtils extends JavaPlugin {
 
