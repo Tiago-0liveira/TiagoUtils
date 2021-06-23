@@ -21,3 +21,9 @@ commands:
   opBow:
     description: Op Arrows
     usage: /opArrow <explosion|teleport>
+  AdminOptions:
+    description: Change plugin options
+    usage: /AdminOptions
+  setMachineGun:
+    description: Turns your bow into a machine gun!
+    usage: /setMachineGun
