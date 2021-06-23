@@ -7,3 +7,4 @@ commands:
 events:
   onArrowCollides: true
   onTreeCapitatorTrigger: true
+  onBadWeather: true

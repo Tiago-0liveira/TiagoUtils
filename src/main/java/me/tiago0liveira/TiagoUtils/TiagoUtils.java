@@ -1,11 +1,8 @@
 package me.tiago0liveira.TiagoUtils;
 
 import me.tiago0liveira.TiagoUtils.commands.*;
+import me.tiago0liveira.TiagoUtils.events.*;
 import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
-import me.tiago0liveira.TiagoUtils.events.onArrowCollides;
-import me.tiago0liveira.TiagoUtils.events.onMachineGunHold;
-import me.tiago0liveira.TiagoUtils.events.onRightClickForMachineGunBow;
-import me.tiago0liveira.TiagoUtils.events.onTreeCapitatorTrigger;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BossBar;
 import org.bukkit.boss.KeyedBossBar;
@@ -30,9 +27,16 @@ public final class TiagoUtils extends JavaPlugin {
         /*
         * DONE: lightning arrow
         * DONE: machine gun bow
-        * TODO: finnish options menu
+        * DONE: always good weather
+        * TODO: maybe Command Factory ? for simplicity creating commands ??
         * TODO: enchantment menu (ops included)
         * TODO: admins powers (lightning, ban, kick, ...)
+        * TODO: tri bow
+        * TODO: machine gun mods (speed, tri bow,..)
+        * TODO: warps (store with warps.yml)
+        * TODO: home/setHome
+        * TODO: customEffects(mine with hand, super strong hand) maybe introduce stats for every player ??
+        * TODO: finnish options menu
         * */
         plugin = this;
         System.out.println("Tiago Utils has started!");
@@ -54,6 +58,7 @@ public final class TiagoUtils extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onClickAdminOptionsMenu(), this);
         getServer().getPluginManager().registerEvents(new onRightClickForMachineGunBow(), this);
         getServer().getPluginManager().registerEvents(new onMachineGunHold(), this);
+        getServer().getPluginManager().registerEvents(new onBadWeather(), this);
     }
 
     @Override
