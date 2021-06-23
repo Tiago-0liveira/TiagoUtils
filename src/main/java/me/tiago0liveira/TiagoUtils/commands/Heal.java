@@ -1,26 +1,25 @@
 package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
+
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-public class Heal implements CommandExecutor {
+import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
 
-    List<String> healAliases = Arrays.asList("heal", "h", "healme", "iNeedLife", "givemelife");
-    List<String> rPotionEffectsAliases = Arrays.asList("rpe", "cleame", "milk");
-    List<String> foodAliases = Arrays.asList("food", "f", "feedme", "gimmefood");
-
+public class Heal implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (TiagoUtils.options.getConfigurationSection("commands").getBoolean("Heal")) {
@@ -29,17 +28,14 @@ public class Heal implements CommandExecutor {
                     removePotionEffects(player);
                     setMaxFood(player);
                 } else {
-                    List<String> argslist = Arrays.asList(args);
-                    if (!Collections.disjoint(argslist, healAliases)) {
-                        player.sendMessage("heal triggered");
+                    List<String> argsList = Arrays.asList(args);
+                    if (someEqualsIgnore(argsList, "Heal")) {
                         setMaxHealth(player);
                     }
-                    if (!Collections.disjoint(argslist,rPotionEffectsAliases)) {
-                        player.sendMessage("rpe triggered");
+                    if (someEqualsIgnore(argsList, "RemovePotionEffects")) {
                         removePotionEffects(player);
                     }
-                    if (!Collections.disjoint(argslist,foodAliases)) {
-                        player.sendMessage("food triggered");
+                    if (someEqualsIgnore(argsList, "Food")) {
                         setMaxFood(player);
                     }
                 }
@@ -49,19 +45,33 @@ public class Heal implements CommandExecutor {
         }
         return true;
     }
-
-    public static void setMaxHealth(Player player) {
-        if (player.getHealth() != player.getMaxHealth()) {
-            player.setHealth(player.getMaxHealth());
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (sender instanceof Player) {
+            List<String> theArgs = Arrays.asList(args);
+            List<String> PossibleArgs = new ArrayList<>();
+            if (!someEqualsIgnore(theArgs, "Heal")) {
+                PossibleArgs.add("Heal");
+            }
+            if (!someEqualsIgnore(theArgs, "RemovePotionEffects")) {
+                PossibleArgs.add("RemovePotionEffects");
+            }
+            if (!someEqualsIgnore(theArgs, "Food")) {
+                PossibleArgs.add("Food");
+            }
+            return PossibleArgs;
         }
+        return null;
     }
-
+    public static void setMaxHealth(Player player) {
+        double DefaultVal = Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getDefaultValue();
+        player.setHealth(DefaultVal);
+    }
     public static void removePotionEffects(Player player) {
         for (PotionEffect potionEffect : player.getActivePotionEffects()) {
             player.removePotionEffect(potionEffect.getType());
         }
     }
-
     public static void setMaxFood(Player player) {
         if (player.getFoodLevel() != 20) {
             player.setFoodLevel(20);
