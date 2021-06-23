@@ -26,8 +26,8 @@ public class onArrowCollides implements Listener {
                 if (meta != null) {
                     PersistentDataContainer container = meta.getPersistentDataContainer();
                     String bowType = container.get(
-                            new NamespacedKey(TiagoUtils.getPlugin(), "bowType"),
-                            PersistentDataType.STRING
+                        new NamespacedKey(TiagoUtils.getPlugin(), "bowType"),
+                        PersistentDataType.STRING
                     );
                     if (bowType != null) {
                         if (bowType.equals(BowType.EXPLOSION.toString())) {
