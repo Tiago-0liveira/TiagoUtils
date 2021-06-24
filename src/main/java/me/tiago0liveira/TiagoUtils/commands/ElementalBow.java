@@ -4,18 +4,16 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
 import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
 
+import me.tiago0liveira.TiagoUtils.enums.PersistentData;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,13 +69,8 @@ public class ElementalBow implements TabExecutor {
     private static void giveBow(Player player, BowType bowType) {
         ItemStack Bow = new ItemStack(Material.BOW);
         ItemMeta itemMeta = Bow.getItemMeta();
-        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
         List<String> Lore = new ArrayList<>();
-        dataContainer.set(
-                new NamespacedKey(TiagoUtils.getPlugin(), "bowType"),
-                PersistentDataType.STRING,
-                bowType.toString()
-        );
+        PersistentData.bowType.set(itemMeta, bowType.toString());
         if (bowType.equals(BowType.EXPLOSION)) {
             itemMeta.setDisplayName(getBowName(bowType) + ChatColor.GRAY + " BOW");
             Lore.add(ChatColor.DARK_GRAY + "When it lands the arrow makes an " + ChatColor.RED + "explosion" + ChatColor.DARK_GRAY + "!");

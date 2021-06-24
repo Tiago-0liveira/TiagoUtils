@@ -2,10 +2,10 @@ package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 
+import me.tiago0liveira.TiagoUtils.enums.PersistentData;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,8 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +29,11 @@ public class setMachineGun implements CommandExecutor {
                 if (bow.getType().equals(Material.BOW)) {
                     ItemMeta meta = bow.getItemMeta();
                     if (meta != null) {
-                        PersistentDataContainer container = meta.getPersistentDataContainer();
-                        if (!container.has(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGun"), PersistentDataType.BYTE)) {
-                            container.set(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGun"), PersistentDataType.BYTE, (byte) 1);
-                            container.set(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGunActive"), PersistentDataType.BYTE, (byte) 0);
-                            String bowType = container.get(new NamespacedKey(TiagoUtils.getPlugin(), "bowType"), PersistentDataType.STRING);
+                        if (!PersistentData.isMachineGun.has(meta)) {
+                            PersistentData.isMachineGun.set(meta, true);
+                            String bowType = PersistentData.bowType.get(meta);
                             if (bowType == null) {
-                                container.set(new NamespacedKey(TiagoUtils.getPlugin(), "bowType"), PersistentDataType.STRING, "DEFAULT");
+                                PersistentData.bowType.set(meta, "DEFAULT");
                                 bowType = "default";
                             }
                             List<String> Lore;

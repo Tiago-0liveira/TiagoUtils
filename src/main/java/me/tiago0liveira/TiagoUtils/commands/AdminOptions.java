@@ -1,10 +1,9 @@
 package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.Gui.InventoryFactory;
-import me.tiago0liveira.TiagoUtils.TiagoUtils;
+import me.tiago0liveira.TiagoUtils.enums.PersistentData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,7 +12,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,7 @@ public class AdminOptions implements CommandExecutor {
             List<String> commandsLore = new ArrayList<>();
             commandsLore.add(ChatColor.DARK_GRAY + "Change Commands Settings");
             commandsMetaData.setLore(commandsLore);
-            commandsMetaData.getPersistentDataContainer().set(new NamespacedKey(TiagoUtils.getPlugin(), "clickAction"), PersistentDataType.STRING, "commandsMenu");
+            PersistentData.clickAction.set(commandsMetaData, "commandsMenu");
             commands.setItemMeta(commandsMetaData);
             /*
             * Events
@@ -48,7 +46,7 @@ public class AdminOptions implements CommandExecutor {
             List<String> eventsLore = new ArrayList<>();
             eventsLore.add(ChatColor.DARK_GRAY + "Change Events Settings");
             eventsMetaData.setLore(eventsLore);
-            eventsMetaData.getPersistentDataContainer().set(new NamespacedKey(TiagoUtils.getPlugin(), "clickAction"), PersistentDataType.STRING, "eventsMenu");
+            PersistentData.clickAction.set(eventsMetaData, "eventsMenu");
             events.setItemMeta(eventsMetaData);
             /*
             * Player Head
@@ -57,7 +55,7 @@ public class AdminOptions implements CommandExecutor {
             SkullMeta playerHeadItemMeta = (SkullMeta) PlayerHead.getItemMeta();
             playerHeadItemMeta.setDisplayName(ChatColor.DARK_BLUE + player.getDisplayName());
             playerHeadItemMeta.setLore(new ArrayList<>());
-            playerHeadItemMeta.getPersistentDataContainer().set(new NamespacedKey(TiagoUtils.getPlugin(), "clickAction"), PersistentDataType.STRING, "playerMenu");
+            PersistentData.clickAction.set(playerHeadItemMeta, "playerMenu");
             playerHeadItemMeta.setOwningPlayer(player);
             PlayerHead.setItemMeta(playerHeadItemMeta);
 
