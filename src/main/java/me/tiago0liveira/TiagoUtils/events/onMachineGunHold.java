@@ -23,7 +23,6 @@ public class onMachineGunHold implements Listener {
     @EventHandler
     public void holdMachineGun(PlayerItemHeldEvent e) {
         Player p = e.getPlayer();
-        p.sendMessage("called");
         if (MachineGunBossBar != null) {
             MachineGunBossBar.removeAll();
             MachineGunBossBar = null;
@@ -35,7 +34,6 @@ public class onMachineGunHold implements Listener {
                 if (PersistentData.isMachineGun.has(meta)) {
                     if (TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.machineGuns)) {
                         boolean isActive = PersistentData.isMachineGunActive.get(meta);
-                        p.sendMessage(String.valueOf(isActive));
                         String bowType = PersistentData.bowType.get(meta);
                         MachineGunBossBar = Bukkit.createBossBar(meta.getDisplayName() + ChatColor.WHITE + " is " + (isActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.DARK_RED + "DISABLED"), getBarColor(bowType), BarStyle.SOLID);
                         MachineGunBossBar.addPlayer(p);
