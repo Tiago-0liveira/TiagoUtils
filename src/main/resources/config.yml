@@ -2,7 +2,7 @@ commands:
   Fly: true
   God: true
   Heal: true
-  opBow: true
+  ElementalBow: true
   opEnchant: true
   setMachineGun: true
 events:

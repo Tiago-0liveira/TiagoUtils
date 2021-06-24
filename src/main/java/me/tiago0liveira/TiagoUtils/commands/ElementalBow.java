@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class opBow implements TabExecutor {
+public class ElementalBow implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.opBow)) {
+            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.ElementalBow)) {
                 if (args.length > 0) {
                     if (args[0].equalsIgnoreCase("explosion")) {
                         giveBow(player, BowType.EXPLOSION);
@@ -48,7 +48,7 @@ public class opBow implements TabExecutor {
                     player.sendMessage(ChatColor.AQUA + " - LIGHTNING");
                 }
             } else {
-                player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "opBow" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
+                player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "ElementalBow" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
             }
         }
         return true;

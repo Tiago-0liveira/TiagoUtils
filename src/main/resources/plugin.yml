@@ -18,9 +18,9 @@ commands:
   opEnchant:
     description: Op enchants
     usage: /opEnchant
-  opBow:
-    description: Op Arrows
-    usage: /opArrow <explosion|teleport>
+  ElementalBow:
+    description: Elemental Bows
+    usage: /ElementalBow <explosion|teleport|lightning>
   AdminOptions:
     description: Change plugin options
     usage: /AdminOptions

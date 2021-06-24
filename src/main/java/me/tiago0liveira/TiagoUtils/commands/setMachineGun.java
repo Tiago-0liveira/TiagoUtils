@@ -50,7 +50,7 @@ public class setMachineGun implements CommandExecutor {
                             Lore.add(ChatColor.RED + "MACHINE GUN");
                             Lore.add(ChatColor.DARK_GRAY + "Right click to toggle " + ChatColor.RED + "Machine Gun Mode");
                             meta.setLore(Lore);
-                            meta.setDisplayName(opBow.getBowName(bowType) + ChatColor.DARK_RED + " MACHINE GUN");
+                            meta.setDisplayName(ElementalBow.getBowName(bowType) + ChatColor.DARK_RED + " MACHINE GUN");
                             bow.setItemMeta(meta);
                             int BowSlot = player.getInventory().getHeldItemSlot();
                             TiagoUtils.getPlugin().getServer().getPluginManager().callEvent(new PlayerItemHeldEvent(player, BowSlot, BowSlot));

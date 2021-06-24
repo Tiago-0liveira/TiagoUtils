@@ -46,7 +46,7 @@ public final class TiagoUtils extends JavaPlugin {
         getCommand("god").setExecutor(new God());
         getCommand("heal").setExecutor(new Heal());
         getCommand("openchant").setExecutor(new opEnchant());
-        getCommand("opBow").setExecutor(new opBow());
+        getCommand("ElementalBow").setExecutor(new ElementalBow());
         getCommand("adminOptions").setExecutor(new AdminOptions());
         getCommand("setMachineGun").setExecutor(new setMachineGun());
         getServer().getPluginManager().registerEvents(new onClickAdminOptionsMenu(), this);
