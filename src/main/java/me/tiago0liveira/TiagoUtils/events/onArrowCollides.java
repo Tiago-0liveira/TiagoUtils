@@ -37,6 +37,9 @@ public class onArrowCollides implements Listener {
                         } else if (bowType.equals(BowType.LIGHTNING.toString())) {
                             e.getEntity().getWorld().strikeLightning(e.getEntity().getLocation());
                         }
+                        if (bowType.equals(BowType.EXPLOSION.toString()) || bowType.equals(BowType.TELEPORT.toString()) || bowType.equals(BowType.LIGHTNING.toString())) {
+                            e.getEntity().remove();
+                        }
                     }
                 }
             }
