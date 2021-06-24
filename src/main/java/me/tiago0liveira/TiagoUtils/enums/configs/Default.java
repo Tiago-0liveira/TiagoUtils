@@ -14,7 +14,6 @@ public class Default {
     public static class events {
         public static String onArrowCollides = "onArrowCollides";
         public static String onBadWeather = "onBadWeather";
-        public static String onMachineGunHold = "onMachineGunHold";
-        public static String onRightClickForMachineGunBow = "onRightClickForMachineGunBow";
+        public static String machineGuns = "machineGuns";
     }
 }

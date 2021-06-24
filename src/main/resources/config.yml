@@ -8,5 +8,4 @@ commands:
 events:
   onArrowCollides: true
   onBadWeather: true
-  onMachineGunHold: true
-  onRightClickForMachineGunBow: true
+  machineGuns: true
