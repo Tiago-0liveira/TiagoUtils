@@ -18,14 +18,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import static me.tiago0liveira.TiagoUtils.events.onHoldElementalBow.getBarColor;
 
 public class onMachineGunHold implements Listener {
-    private BossBar bossBar;
+    private static BossBar MachineGunBossBar;
 
     @EventHandler
     public void holdMachineGun(PlayerItemHeldEvent e) {
         Player p = e.getPlayer();
-        if (bossBar != null) {
-            bossBar.removeAll();
-            bossBar = null;
+        p.sendMessage("called");
+        if (MachineGunBossBar != null) {
+            MachineGunBossBar.removeAll();
+            MachineGunBossBar = null;
         }
         ItemStack itemHeld = p.getInventory().getItem(e.getNewSlot());
         if (itemHeld != null) {
@@ -36,8 +37,8 @@ public class onMachineGunHold implements Listener {
                         boolean isActive = PersistentData.isMachineGunActive.get(meta);
                         p.sendMessage(String.valueOf(isActive));
                         String bowType = PersistentData.bowType.get(meta);
-                        bossBar = Bukkit.createBossBar(meta.getDisplayName() + ChatColor.WHITE + " is " + (isActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.DARK_RED + "DISABLED"), getBarColor(bowType), BarStyle.SOLID);
-                        bossBar.addPlayer(p);
+                        MachineGunBossBar = Bukkit.createBossBar(meta.getDisplayName() + ChatColor.WHITE + " is " + (isActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.DARK_RED + "DISABLED"), getBarColor(bowType), BarStyle.SOLID);
+                        MachineGunBossBar.addPlayer(p);
                     }  else {
                         p.sendMessage("");
                         p.sendMessage("Machine Guns are " + ChatColor.RED + "disabled!");
@@ -45,6 +46,13 @@ public class onMachineGunHold implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    public static void clearMachineGunBossBar() {
+        if (MachineGunBossBar != null) {
+            MachineGunBossBar.removeAll();
+            MachineGunBossBar = null;
         }
     }
 }

@@ -60,6 +60,7 @@ public final class TiagoUtils extends JavaPlugin {
     @Override
     public void onDisable() {
         System.out.println("Tiago Utils has stopped!");
+        onMachineGunHold.clearMachineGunBossBar();
         for (Player player : getServer().getOnlinePlayers()) {
             player.sendMessage(ChatColor.AQUA + "Tiago Utils" + ChatColor.WHITE +" has " + ChatColor.RED + "stopped!");
         }
