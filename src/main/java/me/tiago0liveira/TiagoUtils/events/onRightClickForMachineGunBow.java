@@ -2,6 +2,7 @@ package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,22 +41,24 @@ public class onRightClickForMachineGunBow implements Listener {
                 if (meta != null ) {
                     PersistentDataContainer container = meta.getPersistentDataContainer();
                     if (container.has(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGun"), PersistentDataType.BYTE)) {
-                        playerUUID = player.getUniqueId();
-                        e.setCancelled(true);
-                        if (isMachineGunActive == null || Objects.equals(container.get(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGun"), PersistentDataType.BYTE), (byte) 0)) {
-                            isMachineGunActive = false;
+                        if (TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.machineGuns)) {
+                            playerUUID = player.getUniqueId();
+                            e.setCancelled(true);
+                            if (isMachineGunActive == null || Objects.equals(container.get(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGun"), PersistentDataType.BYTE), (byte) 0)) {
+                                isMachineGunActive = false;
+                            }
+                            isMachineGunActive = !isMachineGunActive;
+                            if (isMachineGunActive) {
+                                startLoop(bow);
+                            } else {
+                                stopLoop(onUseBow);
+                            }
+                            player.sendMessage("Machine Gun " + (isMachineGunActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.RED + "DISABLED"));
+                            container.set(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGunActive"), PersistentDataType.BYTE, isMachineGunActive ? (byte) 1 : (byte) 0);
+                            bow.setItemMeta(meta);
+                            int BowSlot = player.getInventory().getHeldItemSlot();
+                            player.getServer().getPluginManager().callEvent(new PlayerItemHeldEvent(player, BowSlot, BowSlot));
                         }
-                        isMachineGunActive = !isMachineGunActive;
-                        if (isMachineGunActive) {
-                            startLoop(bow);
-                        } else {
-                            stopLoop(onUseBow);
-                        }
-                        player.sendMessage("Machine Gun " + (isMachineGunActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.RED + "DISABLED"));
-                        container.set(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGunActive"), PersistentDataType.BYTE, isMachineGunActive ? (byte) 1 : (byte) 0);
-                        bow.setItemMeta(meta);
-                        int BowSlot = player.getInventory().getHeldItemSlot();
-                        player.getServer().getPluginManager().callEvent(new PlayerItemHeldEvent(player, BowSlot, BowSlot));
                     }
                 }
             }

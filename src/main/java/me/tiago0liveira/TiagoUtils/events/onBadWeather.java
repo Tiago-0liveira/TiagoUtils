@@ -11,7 +11,7 @@ public class onBadWeather implements Listener {
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent e) {
         ConfigurationSection eventsSection = TiagoUtils.options.getConfigurationSection(Default.SectionEvents);
-        if (eventsSection != null && eventsSection.getBoolean("onBadWeather")) {
+        if (eventsSection != null && eventsSection.getBoolean(Default.events.onBadWeather)) {
             e.setCancelled(true);
         }
     }

@@ -2,6 +2,7 @@ package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import static me.tiago0liveira.TiagoUtils.events.onHoldElementalBow.getBarColor;
 
 public class onMachineGunHold implements Listener {
     private BossBar bossBar;
@@ -34,27 +37,19 @@ public class onMachineGunHold implements Listener {
                 ItemMeta meta = itemHeld.getItemMeta();
                 PersistentDataContainer container = meta.getPersistentDataContainer();
                 if (container.has(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGun"), PersistentDataType.BYTE)) {
-                    Byte ByteMachineGunActive = container.get(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGunActive"), PersistentDataType.BYTE);
-                    boolean isActive = ByteMachineGunActive.equals((byte) 1);
-                    String bowType = container.get(new NamespacedKey(TiagoUtils.getPlugin(), "bowType"), PersistentDataType.STRING);
-                    bossBar = Bukkit.createBossBar(meta.getDisplayName() + ChatColor.WHITE + " is " + (isActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.DARK_RED + "DISABLED"), getBarColor(bowType), BarStyle.SOLID);
-                    bossBar.addPlayer(p);
+                    if (TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.machineGuns)) {
+                        Byte ByteMachineGunActive = container.get(new NamespacedKey(TiagoUtils.getPlugin(), "isMachineGunActive"), PersistentDataType.BYTE);
+                        boolean isActive = ByteMachineGunActive.equals((byte) 1);
+                        String bowType = container.get(new NamespacedKey(TiagoUtils.getPlugin(), "bowType"), PersistentDataType.STRING);
+                        bossBar = Bukkit.createBossBar(meta.getDisplayName() + ChatColor.WHITE + " is " + (isActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.DARK_RED + "DISABLED"), getBarColor(bowType), BarStyle.SOLID);
+                        bossBar.addPlayer(p);
+                    }  else {
+                        p.sendMessage("");
+                        p.sendMessage("Machine Guns are " + ChatColor.RED + "disabled!");
+                        p.sendMessage("");
+                    }
                 }
             }
-        }
-    }
-    public BarColor getBarColor(String bowType) {
-        if (bowType.equals(BowType.EXPLOSION.toString())) {
-            return BarColor.RED;
-        } else if (bowType.equals(BowType.TELEPORT.toString())) {
-            return BarColor.PURPLE;
-        } else if(bowType.equals(BowType.LIGHTNING.toString())) {
-            return BarColor.BLUE;
-        } else if(bowType.equals("DEFAULT")) {
-            return BarColor.WHITE;
-        } else {
-            System.err.println("ERROR|UNKNOWN bowType->" + bowType);
-            return null;
         }
     }
 }
