@@ -31,6 +31,7 @@ public class setMachineGun implements CommandExecutor {
                     if (meta != null) {
                         if (!PersistentData.isMachineGun.has(meta)) {
                             PersistentData.isMachineGun.set(meta, true);
+                            PersistentData.isMachineGunActive.set(meta, false);
                             String bowType = PersistentData.bowType.get(meta);
                             if (bowType == null) {
                                 PersistentData.bowType.set(meta, "DEFAULT");
