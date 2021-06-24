@@ -6,6 +6,7 @@ import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsI
 
 import me.tiago0liveira.TiagoUtils.enums.PersistentData;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ElementalBow implements TabExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
@@ -27,23 +29,36 @@ public class ElementalBow implements TabExecutor {
             if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.ElementalBow)) {
                 if (args.length > 0) {
                     if (args[0].equalsIgnoreCase("explosion")) {
-                        giveBow(player, BowType.EXPLOSION);
+                        player.getInventory().addItem(giveBow(BowType.EXPLOSION));
                     } else if (args[0].equalsIgnoreCase("teleport")) {
-                        giveBow(player, BowType.TELEPORT);
+                        player.getInventory().addItem(giveBow(BowType.TELEPORT));
                     } else if (args[0].equalsIgnoreCase("lightning")) {
-                        giveBow(player, BowType.LIGHTNING);
+                        player.getInventory().addItem(giveBow(BowType.LIGHTNING));
                     } else {
                         player.sendMessage(ChatColor.RED + args[0] + ChatColor.WHITE + " does not exist!");
-                        player.sendMessage("  Available arrow types: ");
-                        player.sendMessage(ChatColor.RED + " - EXPLOSION");
-                        player.sendMessage(ChatColor.DARK_PURPLE + " - TELEPORT");
-                        player.sendMessage(ChatColor.AQUA + " - LIGHTNING");
+                        for (BowType type : BowType.values()) {
+                            TextComponent em = new TextComponent();
+                            em.setText("  - " + getBowName(type) + ChatColor.GRAY + " BOW");
+                            em.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ElementalBow " + type.toString()));
+                            em.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
+                                    new TextComponent(getBowName(type) + ChatColor.GRAY + " BOW\n"),
+                                    new TextComponent(ChatColor.GRAY + "[ " + ChatColor.YELLOW + "CLICK ME TO GET ONE" + ChatColor.GRAY + " ]")
+                            }));
+                            player.spigot().sendMessage(em);
+                        }
                     }
                 } else {
-                    player.sendMessage("  Available arrow types: ");
-                    player.sendMessage(ChatColor.RED + " - EXPLOSION");
-                    player.sendMessage(ChatColor.DARK_PURPLE + " - TELEPORT");
-                    player.sendMessage(ChatColor.AQUA + " - LIGHTNING");
+                    player.sendMessage("Available bow types: ");
+                    for (BowType type : BowType.values()) {
+                        TextComponent em = new TextComponent();
+                        em.setText("  - " + getBowName(type) + ChatColor.GRAY + " BOW");
+                        em.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ElementalBow " + type.toString()));
+                        em.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
+                                new TextComponent(getBowName(type) + ChatColor.GRAY + " BOW\n"),
+                                new TextComponent(ChatColor.GRAY + "[" + ChatColor.YELLOW + "CLICK ME TO GET ONE" + ChatColor.GRAY + "]")
+                        }));
+                        player.spigot().sendMessage(em);
+                    }
                 }
             } else {
                 player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "ElementalBow" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
@@ -66,7 +81,7 @@ public class ElementalBow implements TabExecutor {
         }
         return null;
     }
-    private static void giveBow(Player player, BowType bowType) {
+    private static ItemStack giveBow(BowType bowType) {
         ItemStack Bow = new ItemStack(Material.BOW);
         ItemMeta itemMeta = Bow.getItemMeta();
         List<String> Lore = new ArrayList<>();
@@ -84,7 +99,7 @@ public class ElementalBow implements TabExecutor {
         itemMeta.setLore(Lore);
         Bow.setItemMeta(itemMeta);
 
-        player.getInventory().addItem(Bow);
+        return Bow;
     }
     public static String getBowName(BowType bowType) {
         if (bowType.equals(BowType.EXPLOSION)) {
