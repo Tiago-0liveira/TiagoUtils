@@ -36,29 +36,10 @@ public class ElementalBow implements TabExecutor {
                         player.getInventory().addItem(giveBow(BowType.LIGHTNING));
                     } else {
                         player.sendMessage(ChatColor.RED + args[0] + ChatColor.WHITE + " does not exist!");
-                        for (BowType type : BowType.values()) {
-                            TextComponent em = new TextComponent();
-                            em.setText("  - " + getBowName(type) + ChatColor.GRAY + " BOW");
-                            em.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ElementalBow " + type.toString()));
-                            em.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
-                                    new TextComponent(getBowName(type) + ChatColor.GRAY + " BOW\n"),
-                                    new TextComponent(ChatColor.GRAY + "[ " + ChatColor.YELLOW + "CLICK ME TO GET ONE" + ChatColor.GRAY + " ]")
-                            }));
-                            player.spigot().sendMessage(em);
-                        }
+                        showPossibleElementalbows(player);
                     }
                 } else {
-                    player.sendMessage("Available bow types: ");
-                    for (BowType type : BowType.values()) {
-                        TextComponent em = new TextComponent();
-                        em.setText("  - " + getBowName(type) + ChatColor.GRAY + " BOW");
-                        em.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ElementalBow " + type.toString()));
-                        em.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
-                                new TextComponent(getBowName(type) + ChatColor.GRAY + " BOW\n"),
-                                new TextComponent(ChatColor.GRAY + "[" + ChatColor.YELLOW + "CLICK ME TO GET ONE" + ChatColor.GRAY + "]")
-                        }));
-                        player.spigot().sendMessage(em);
-                    }
+                    showPossibleElementalbows(player);
                 }
             } else {
                 player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "ElementalBow" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
@@ -127,5 +108,17 @@ public class ElementalBow implements TabExecutor {
             return null;
         }
     }
-
+    private static void showPossibleElementalbows(Player player) {
+        player.sendMessage("Available bow types: ");
+        for (BowType type : BowType.values()) {
+            TextComponent em = new TextComponent();
+            em.setText("  - " + getBowName(type) + ChatColor.GRAY + " BOW");
+            em.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ElementalBow " + type.toString()));
+            em.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{
+                    new TextComponent(getBowName(type) + ChatColor.GRAY + " BOW\n"),
+                    new TextComponent(ChatColor.GRAY + "[" + ChatColor.YELLOW + "CLICK ME TO GET ONE" + ChatColor.GRAY + "]")
+            }));
+            player.spigot().sendMessage(em);
+        }
+    }
 }
