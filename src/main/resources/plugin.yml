@@ -15,6 +15,9 @@ commands:
   heal:
     description: Heal, food, - potion ef.
     usage: /heal
+  home:
+    description: Your Home
+    usage: /home
   opEnchant:
     description: Op enchants
     usage: /opEnchant

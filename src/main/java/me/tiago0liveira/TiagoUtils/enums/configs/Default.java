@@ -7,6 +7,7 @@ public final class Default {
         public static final String Fly = "Fly";
         public static final String God = "God";
         public static final String Heal = "Heal";
+        public static final String Home = "Home";
         public static final String ElementalBow = "ElementalBow";
         public static final String opEnchant = "opEnchant";
         public static final String setMachineGun = "setMachineGun";

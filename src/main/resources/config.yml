@@ -2,6 +2,7 @@ commands:
   Fly: true
   God: true
   Heal: true
+  Home: true
   ElementalBow: true
   opEnchant: true
   setMachineGun: true
