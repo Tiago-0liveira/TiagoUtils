@@ -9,10 +9,10 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class PersistentData {
     public static class Keys {
-        public static String isMachineGun = "isMachineGun";
-        public static String isMachineGunActive = "isMachineGunActive";
-        public static String BowType = "bowType";
-        public static String ClickAction = "clickAction";
+        public static final String isMachineGun = "isMachineGun";
+        public static final String isMachineGunActive = "isMachineGunActive";
+        public static final String BowType = "bowType";
+        public static final String ClickAction = "clickAction";
     }
     public static class isMachineGun {
         public static boolean get(ItemMeta meta) {
