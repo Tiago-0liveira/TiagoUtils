@@ -4,6 +4,7 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
 import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
 
+import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.PersistentData;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import net.md_5.bungee.api.chat.*;
@@ -26,23 +27,27 @@ public class ElementalBow implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.ElementalBow)) {
-                if (args.length > 0) {
-                    if (args[0].equalsIgnoreCase("explosion")) {
-                        player.getInventory().addItem(giveBow(BowType.EXPLOSION));
-                    } else if (args[0].equalsIgnoreCase("teleport")) {
-                        player.getInventory().addItem(giveBow(BowType.TELEPORT));
-                    } else if (args[0].equalsIgnoreCase("lightning")) {
-                        player.getInventory().addItem(giveBow(BowType.LIGHTNING));
+            if (player.hasPermission(Permissions.Commands.ElementalBow)) {
+                if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.ElementalBow)) {
+                    if (args.length > 0) {
+                        if (args[0].equalsIgnoreCase("explosion")) {
+                            player.getInventory().addItem(giveBow(BowType.EXPLOSION));
+                        } else if (args[0].equalsIgnoreCase("teleport")) {
+                            player.getInventory().addItem(giveBow(BowType.TELEPORT));
+                        } else if (args[0].equalsIgnoreCase("lightning")) {
+                            player.getInventory().addItem(giveBow(BowType.LIGHTNING));
+                        } else {
+                            player.sendMessage(ChatColor.RED + args[0] + ChatColor.WHITE + " does not exist!");
+                            showPossibleElementalbows(player);
+                        }
                     } else {
-                        player.sendMessage(ChatColor.RED + args[0] + ChatColor.WHITE + " does not exist!");
                         showPossibleElementalbows(player);
                     }
                 } else {
-                    showPossibleElementalbows(player);
+                    player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "ElementalBow" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
                 }
             } else {
-                player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "ElementalBow" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
+                player.sendMessage(ChatColor.DARK_GRAY + "You need " + ChatColor.RED + "permission" + ChatColor.DARK_GRAY + " to use this command!");
             }
         }
         return true;

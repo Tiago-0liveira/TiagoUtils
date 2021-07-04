@@ -12,7 +12,7 @@ import static me.tiago0liveira.TiagoUtils.commands.Home.setup;
 
 public final class TiagoUtils extends JavaPlugin {
 
-
+    public static final String pluginName = "TiagoUtils";
     public static TiagoUtils getPlugin() {
         return plugin;
     }
@@ -27,7 +27,7 @@ public final class TiagoUtils extends JavaPlugin {
         * DONE: machine gun bow
         * DONE: always good weather
         * DONE: home/setHome
-        * TODO: ADD PERMISSIONS AS SOON AS POSSIBLE !!!
+        * DONE: ADD PERMISSIONS AS SOON AS POSSIBLE !!!
         * TODO: maybe Command Factory ? for simplicity creating commands ??
         * TODO: enchantment menu (ops included)
         * TODO: admins powers (lightning, ban, kick, ...)

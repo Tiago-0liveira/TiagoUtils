@@ -2,6 +2,7 @@ package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 
+import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -23,26 +24,31 @@ public class Heal implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Heal)) {
-                if (args.length == 0) {
-                    setMaxHealth(player);
-                    removePotionEffects(player);
-                    setMaxFood(player);
-                    player.sendMessage(ChatColor.DARK_GRAY + "You just got fully " + ChatColor.GREEN + "healed" + ChatColor.DARK_GRAY + "!");
-                } else {
-                    List<String> argsList = Arrays.asList(args);
-                    if (someEqualsIgnore(argsList, "Heal")) {
+
+            if (player.hasPermission(Permissions.Commands.Heal)) {
+                if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Heal)) {
+                    if (args.length == 0) {
                         setMaxHealth(player);
-                    }
-                    if (someEqualsIgnore(argsList, "RemovePotionEffects")) {
                         removePotionEffects(player);
-                    }
-                    if (someEqualsIgnore(argsList, "Food")) {
                         setMaxFood(player);
+                        player.sendMessage(ChatColor.DARK_GRAY + "You just got fully " + ChatColor.GREEN + "healed" + ChatColor.DARK_GRAY + "!");
+                    } else {
+                        List<String> argsList = Arrays.asList(args);
+                        if (someEqualsIgnore(argsList, "Heal")) {
+                            setMaxHealth(player);
+                        }
+                        if (someEqualsIgnore(argsList, "RemovePotionEffects")) {
+                            removePotionEffects(player);
+                        }
+                        if (someEqualsIgnore(argsList, "Food")) {
+                            setMaxFood(player);
+                        }
                     }
+                } else {
+                    player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "Heal" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
                 }
             } else {
-                player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "Heal" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
+                player.sendMessage(ChatColor.DARK_GRAY + "You need " + ChatColor.RED + "permission" + ChatColor.DARK_GRAY + " to use this command!");
             }
         }
         return true;

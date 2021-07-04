@@ -1,6 +1,7 @@
 package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
+import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 
 import org.bukkit.ChatColor;
@@ -15,13 +16,18 @@ public class Fly implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Fly)) {
-                if (!player.getAllowFlight()) {
-                    player.setAllowFlight(true);
+            System.out.println(player.hasPermission(Permissions.Commands.Fly));
+            if (player.hasPermission(Permissions.Commands.Fly)) {
+                if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Fly)) {
+                    if (!player.getAllowFlight()) {
+                        player.setAllowFlight(true);
+                    }
+                    player.setFlying(true);
+                } else {
+                    player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "Fly" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
                 }
-                player.setFlying(true);
             } else {
-                player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "Fly" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
+                player.sendMessage(ChatColor.DARK_GRAY + "You need " + ChatColor.RED + "permission" + ChatColor.DARK_GRAY + " to use this command!");
             }
         }
         return true;
