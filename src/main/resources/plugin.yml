@@ -30,3 +30,6 @@ commands:
   setMachineGun:
     description: Turns your bow into a machine gun!
     usage: /setMachineGun
+  permissions:
+    description: Manage permissions
+    usage: /permissions

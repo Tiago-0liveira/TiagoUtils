@@ -19,7 +19,7 @@ public class opEnchant implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (player.hasPermission(Permissions.Commands.opEnchant)) {
+            if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.opEnchant) || player.isOp()) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.opEnchant)) {
                     ItemStack tool = player.getInventory().getItemInMainHand();
                     if (tool.getType().name().equalsIgnoreCase("STICK")) {

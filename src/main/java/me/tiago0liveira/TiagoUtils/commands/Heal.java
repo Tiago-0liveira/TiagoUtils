@@ -25,7 +25,7 @@ public class Heal implements TabExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (player.hasPermission(Permissions.Commands.Heal)) {
+            if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.Heal) || player.isOp()) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Heal)) {
                     if (args.length == 0) {
                         setMaxHealth(player);

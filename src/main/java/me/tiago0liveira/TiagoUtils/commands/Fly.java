@@ -16,8 +16,8 @@ public class Fly implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            System.out.println(player.hasPermission(Permissions.Commands.Fly));
-            if (player.hasPermission(Permissions.Commands.Fly)) {
+
+            if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.Fly)) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Fly)) {
                     if (!player.getAllowFlight()) {
                         player.setAllowFlight(true);

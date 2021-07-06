@@ -4,6 +4,7 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 
+import me.tiago0liveira.TiagoUtils.helpers.FileManager;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -32,7 +33,7 @@ public class Home implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission(Permissions.Commands.Home)) {
+            if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.Home) || player.isOp()) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.Home)) {
                     String path = me.tiago0liveira.TiagoUtils.enums.configs.Home.ListHomes + "." + player.getUniqueId().toString();
                     if (args.length < 1) {
@@ -111,17 +112,10 @@ public class Home implements TabExecutor {
     }
 
     public static void setup() {
-        file = new File(TiagoUtils.getPlugin().getDataFolder(), "Home.yml");
-        if (!file.exists()) {
-            if (!file.getParentFile().exists()) file.getParentFile().mkdir();
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        file = FileManager.getYMLFile("Home.yml");
         HomeConfig = YamlConfiguration.loadConfiguration(file);
     }
+
     private static void noHome(Player p) {
         TextComponent mainTc  = new TextComponent();
         mainTc.setText(ChatColor.GRAY + "NO " + ChatColor.RED + "HOME" + ChatColor.GRAY + " WAS FOUND IN YOU NAME!");

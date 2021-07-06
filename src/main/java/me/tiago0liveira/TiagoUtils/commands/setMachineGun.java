@@ -25,7 +25,7 @@ public class setMachineGun implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission(Permissions.Commands.setMachineGun)) {
+            if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.setMachineGun) || player.isOp()) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.setMachineGun)) {
                     ItemStack bow = player.getInventory().getItemInMainHand();
                     if (bow.getType().equals(Material.BOW)) {

@@ -3,6 +3,7 @@ package me.tiago0liveira.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.commands.*;
 import me.tiago0liveira.TiagoUtils.events.*;
 import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
+import me.tiago0liveira.TiagoUtils.helpers.PermissionsManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ public final class TiagoUtils extends JavaPlugin {
     public static TiagoUtils getPlugin() {
         return plugin;
     }
+    public static PermissionsManager PermManager;
     private static TiagoUtils plugin;
 
     public static FileConfiguration options;
@@ -27,17 +29,19 @@ public final class TiagoUtils extends JavaPlugin {
         * DONE: machine gun bow
         * DONE: always good weather
         * DONE: home/setHome
-        * DONE: ADD PERMISSIONS AS SOON AS POSSIBLE !!!
+        * DONE: Full permissions system done
         * TODO: maybe Command Factory ? for simplicity creating commands ??
+        * TODO: dropped items holograms
         * TODO: enchantment menu (ops included)
         * TODO: admins powers (lightning, ban, kick, ...)
         * TODO: tri bow
-        * TODO: machine gun mods (speed, tri bow,..)
+        * TODO: machine gun mods (shootSpeed, arrowSpeed,..)
         * TODO: warps (store with warps.yml)
         * TODO: customEffects(mine with hand, super strong hand) maybe introduce stats for every player ??
         * TODO: finnish options menu
         * */
         plugin = this;
+        PermManager = new PermissionsManager();
         System.out.println("Tiago Utils has started!");
         getConfig().options().copyDefaults();
         saveDefaultConfig();
@@ -53,6 +57,7 @@ public final class TiagoUtils extends JavaPlugin {
         getCommand("openchant").setExecutor(new opEnchant());
         getCommand("ElementalBow").setExecutor(new ElementalBow());
         getCommand("adminOptions").setExecutor(new AdminOptions());
+        getCommand("permissions").setExecutor(new Permission());
         getCommand("setMachineGun").setExecutor(new setMachineGun());
         getServer().getPluginManager().registerEvents(new onClickAdminOptionsMenu(), this);
         getServer().getPluginManager().registerEvents(new onArrowCollides(), this);

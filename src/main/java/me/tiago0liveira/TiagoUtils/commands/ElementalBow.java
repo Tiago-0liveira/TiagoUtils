@@ -27,7 +27,7 @@ public class ElementalBow implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission(Permissions.Commands.ElementalBow)) {
+            if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.ElementalBow) || player.isOp()) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.ElementalBow)) {
                     if (args.length > 0) {
                         if (args[0].equalsIgnoreCase("explosion")) {

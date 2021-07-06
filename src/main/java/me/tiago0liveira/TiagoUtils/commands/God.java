@@ -16,7 +16,7 @@ public class God implements CommandExecutor {
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission(Permissions.Commands.God)) {
+            if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.God) || player.isOp()) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.God)) {
                     player.setInvulnerable(!player.isInvulnerable());
                     player.sendMessage("Godmode is now " + (player.isInvulnerable() ? ChatColor.GREEN : ChatColor.RED) + (player.isInvulnerable() ? "ENABLED" : "DISABLED"));
