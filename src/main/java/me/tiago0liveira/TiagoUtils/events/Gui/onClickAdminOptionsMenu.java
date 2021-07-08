@@ -23,10 +23,10 @@ public class onClickAdminOptionsMenu implements Listener {
             e.setCancelled(true);
             Player player = (Player) e.getWhoClicked();
             ItemStack clickedItem = e.getCurrentItem();
-            if (clickedItem instanceof ItemStack) {
+            if (clickedItem != null) {
 
                 ItemMeta clickedItemMeta = clickedItem.getItemMeta();
-                if (clickedItemMeta instanceof ItemMeta) {
+                if (clickedItemMeta != null) {
                     player.sendMessage("onClickAdminOptionsMenu.java|ItemMeta not null");
                     switch (PersistentData.clickAction.get(clickedItemMeta)) {
                         case "commandsMenu":
@@ -45,7 +45,6 @@ public class onClickAdminOptionsMenu implements Listener {
                     }
                 } else {
                     player.sendMessage("onClickAdminOptionsMenu.java|ItemMeta null");
-
                 }
             } else {
                 player.sendMessage("onClickAdminOptionsMenu.java|clicked Item null");

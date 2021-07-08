@@ -31,7 +31,7 @@ public final class TiagoUtils extends JavaPlugin {
         * DONE: always good weather
         * DONE: home/setHome
         * DONE: Full permissions system done
-        * TODO: maybe Command Factory ? for simplicity creating commands ??
+        * DONE: maybe Command Factory ? for simplicity creating commands ??
         * TODO: dropped items holograms
         * TODO: enchantment menu (ops included)
         * TODO: admins powers (lightning, ban, kick, ...)
