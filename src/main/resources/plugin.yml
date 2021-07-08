@@ -5,31 +5,3 @@ api-version: 1.17
 authors: [ tiagooo__ ]
 description: Utilities by @tiagooo__
 website: https://github.com/Tiago-0liveira
-commands:
-  fly:
-    description: Fly
-    usage: /fly
-  god:
-    description: God Mode
-    usage: /god
-  heal:
-    description: Heal, food, - potion ef.
-    usage: /heal
-  home:
-    description: Your Home
-    usage: /home
-  opEnchant:
-    description: Op enchants
-    usage: /opEnchant
-  ElementalBow:
-    description: Elemental Bows
-    usage: /ElementalBow <explosion|teleport|lightning>
-  AdminOptions:
-    description: Change plugin options
-    usage: /AdminOptions
-  setMachineGun:
-    description: Turns your bow into a machine gun!
-    usage: /setMachineGun
-  permissions:
-    description: Manage permissions
-    usage: /permissions

@@ -4,11 +4,10 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
@@ -19,9 +18,34 @@ import java.util.Objects;
 
 import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
 
-public class Heal implements TabExecutor {
+public class Heal extends ChatCommand {
+    public static final String commandName = "Heal";
+    public Heal(){
+        super(commandName);
+    }
+
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public String getName() {
+        return commandName;
+    }
+
+    @Override
+    public String getUsage() {
+        return "/heal ...<healType>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Heal Player";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("doc", "ineedhelp");
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
@@ -53,8 +77,9 @@ public class Heal implements TabExecutor {
         }
         return true;
     }
+
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         if (sender instanceof Player) {
             List<String> theArgs = Arrays.asList(args);
             List<String> PossibleArgs = new ArrayList<>();
@@ -69,8 +94,9 @@ public class Heal implements TabExecutor {
             }
             return PossibleArgs;
         }
-        return null;
+        return new ArrayList<>();
     }
+
     public static void setMaxHealth(Player player) {
         double DefaultVal = Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getDefaultValue();
         player.setHealth(DefaultVal);

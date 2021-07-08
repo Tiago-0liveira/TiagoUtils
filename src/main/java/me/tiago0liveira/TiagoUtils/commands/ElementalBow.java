@@ -7,12 +7,11 @@ import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsI
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.PersistentData;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,10 +20,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ElementalBow implements TabExecutor {
+public class ElementalBow extends ChatCommand {
+    public static final String commandName = "ElementalBow";
+
+    public ElementalBow() {
+        super(commandName);
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public String getName() {
+        return commandName;
+    }
+
+    @Override
+    public String getUsage() {
+        return "<lightning|explosive|teleport>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Get a Elemental Bow";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("ebow", "specialbow");
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.ElementalBow) || player.isOp()) {
@@ -53,20 +77,21 @@ public class ElementalBow implements TabExecutor {
         return true;
     }
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         if (sender instanceof Player) {
             List<String> theArgs = Arrays.asList(args);
             boolean someEqualExplosion = someEqualsIgnore(theArgs, "explosion");
             boolean someEqualLightning = someEqualsIgnore(theArgs, "lightning");
             boolean someEqualTeleport = someEqualsIgnore(theArgs, "teleport");
             if (someEqualExplosion || someEqualLightning || someEqualTeleport) {
-                return null;
+                return new ArrayList<>();
             } else {
                 return Arrays.asList("Explosion","Lightning","Teleport");
             }
         }
-        return null;
+        return new ArrayList<>();
     }
+
     private static ItemStack giveBow(BowType bowType) {
         ItemStack Bow = new ItemStack(Material.BOW);
         ItemMeta itemMeta = Bow.getItemMeta();

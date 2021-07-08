@@ -2,10 +2,9 @@ package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
+import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -13,11 +12,41 @@ import java.util.*;
 import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.allMatchesStartWith;
 import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
 
-public class Permission implements TabExecutor {
+public class Permission extends ChatCommand {
     public static List<String> subCommands = Arrays.asList("give", "get", "remove");
+    public static final String commandName = "Permission";
+
+    public Permission() {
+        super(commandName);
+    }
+    @Override
+    public String getName() {
+        return commandName;
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public String getUsage() {
+        return commandName.toLowerCase() + " <give|get|remove> <permission> <player>";
+    }
+    @Override
+    public String getDescription() {
+        return "Manage permissions";
+    }
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("permissions", "perms", "p");
+    }
+    @Override
+    public List<ChatCommand> getSubCommands() {
+        return null;
+    }
+    @Override
+    public boolean isSubCommand() {
+        return false;
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (player.isOp()) {
@@ -57,8 +86,9 @@ public class Permission implements TabExecutor {
         }
         return true;
     }
+
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
         if (sender instanceof Player) {
             if (args.length == 1) {
                 return subCommands;
@@ -75,8 +105,9 @@ public class Permission implements TabExecutor {
                 return rList;
             }
         }
-        return null;
+        return new ArrayList<>();
     }
+
     public static void applyPerm(Player sender, Player target, String command, String perm) {
         System.out.println("perm -> " + perm);
         switch (command) {

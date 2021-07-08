@@ -3,6 +3,7 @@ package me.tiago0liveira.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.commands.*;
 import me.tiago0liveira.TiagoUtils.events.*;
 import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
+import me.tiago0liveira.TiagoUtils.helpers.CommandsManager;
 import me.tiago0liveira.TiagoUtils.helpers.PermissionsManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,6 +43,7 @@ public final class TiagoUtils extends JavaPlugin {
         * */
         plugin = this;
         PermManager = new PermissionsManager();
+        CommandsManager.registerCommands();
         System.out.println("Tiago Utils has started!");
         getConfig().options().copyDefaults();
         saveDefaultConfig();
@@ -50,15 +52,7 @@ public final class TiagoUtils extends JavaPlugin {
         for (Player player : getServer().getOnlinePlayers()) {
             player.sendMessage(ChatColor.AQUA + "Tiago Utils" + ChatColor.WHITE +" has " + ChatColor.GREEN + "started!");
         }
-        getCommand("fly").setExecutor(new Fly());
-        getCommand("god").setExecutor(new God());
-        getCommand("heal").setExecutor(new Heal());
-        getCommand("home").setExecutor(new Home());
-        getCommand("openchant").setExecutor(new opEnchant());
-        getCommand("ElementalBow").setExecutor(new ElementalBow());
-        getCommand("adminOptions").setExecutor(new AdminOptions());
-        getCommand("permissions").setExecutor(new Permission());
-        getCommand("setMachineGun").setExecutor(new setMachineGun());
+
         getServer().getPluginManager().registerEvents(new onClickAdminOptionsMenu(), this);
         getServer().getPluginManager().registerEvents(new onArrowCollides(), this);
         getServer().getPluginManager().registerEvents(new onBadWeather(), this);

@@ -5,10 +5,9 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.PersistentData;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -16,13 +15,38 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
-public class setMachineGun implements CommandExecutor {
+public class setMachineGun extends ChatCommand {
+    public static final String commandName = "setMachineGun";
+    public setMachineGun(){
+        super(commandName);
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public String getName() {
+        return commandName;
+    }
+
+    @Override
+    public String getUsage() {
+        return commandName.toLowerCase();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Turn a bow into a machine gun!";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("smg");
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.setMachineGun) || player.isOp()) {

@@ -2,10 +2,9 @@ package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.Gui.InventoryFactory;
 import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -17,12 +16,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdminOptions implements CommandExecutor {
+public class AdminOptions extends ChatCommand {
+    public static final String commandName = "AdminOption";
+    public static final  String MenuTitle = "Tiago Utils Options Menu";
 
-    final public static String MenuTitle = "Tiago Utils Options Menu";
+    public AdminOptions(){
+        super(commandName);
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public String getName() {
+        return commandName;
+    }
+
+    @Override
+    public String getUsage() {
+        return commandName.toLowerCase();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Admin Options Menu";
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             Inventory inventory = InventoryFactory.InvBorder54(player, MenuTitle);

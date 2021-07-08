@@ -4,6 +4,7 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 
+import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import me.tiago0liveira.TiagoUtils.helpers.FileManager;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -11,9 +12,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -24,13 +23,37 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Home implements TabExecutor {
-
+public class Home extends ChatCommand {
+    public static final String commandName = "Home";
     private static File file;
     private static FileConfiguration HomeConfig;
 
+    public Home(){
+        super(commandName);
+    }
+
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public String getName() {
+        return commandName;
+    }
+
+    @Override
+    public String getUsage() {
+        return commandName.toLowerCase();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Home";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("mysweethome", "h");
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.Home) || player.isOp()) {
@@ -103,13 +126,14 @@ public class Home implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
         if (args.length > 1) {
             return null;
         } else {
             return Arrays.asList("reload", "set");
         }
     }
+
 
     public static void setup() {
         file = FileManager.getYMLFile("Home.yml");

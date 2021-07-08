@@ -3,17 +3,35 @@ package me.tiago0liveira.TiagoUtils.commands;
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class God implements CommandExecutor {
+public class God extends ChatCommand {
+    public static final String commandName = "God";
+
+    public God() {
+        super(commandName);
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
+    public String getName() {
+        return commandName;
+    }
 
+    @Override
+    public String getUsage() {
+        return commandName.toLowerCase();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Set God Mode";
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.God) || player.isOp()) {
