@@ -4,6 +4,8 @@ import me.tiago0liveira.TiagoUtils.commands.*;
 import me.tiago0liveira.TiagoUtils.events.*;
 import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
 import me.tiago0liveira.TiagoUtils.helpers.CommandsManager;
+import me.tiago0liveira.TiagoUtils.helpers.EnchantmentsManager;
+import me.tiago0liveira.TiagoUtils.helpers.EventsManager;
 import me.tiago0liveira.TiagoUtils.helpers.PermissionsManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,6 +34,7 @@ public final class TiagoUtils extends JavaPlugin {
         * DONE: home/setHome
         * DONE: Full permissions system done
         * DONE: maybe Command Factory ? for simplicity creating commands ??
+        * TODO: MAYBE CRAFTING FOR BOWS ??? AND ENCHANTS ??
         * TODO: dropped items holograms
         * TODO: enchantment menu (ops included)
         * TODO: admins powers (lightning, ban, kick, ...)
@@ -44,26 +47,22 @@ public final class TiagoUtils extends JavaPlugin {
         plugin = this;
         PermManager = new PermissionsManager();
         CommandsManager.registerCommands();
+        EventsManager.registerEvents();
         System.out.println("Tiago Utils has started!");
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         options = getConfig().options().configuration();
         setup(); /* Home setup config file */
+        EnchantmentsManager.registerEnchantments();
         for (Player player : getServer().getOnlinePlayers()) {
             player.sendMessage(ChatColor.AQUA + "Tiago Utils" + ChatColor.WHITE +" has " + ChatColor.GREEN + "started!");
         }
-
-        getServer().getPluginManager().registerEvents(new onClickAdminOptionsMenu(), this);
-        getServer().getPluginManager().registerEvents(new onArrowCollides(), this);
-        getServer().getPluginManager().registerEvents(new onBadWeather(), this);
-        getServer().getPluginManager().registerEvents(new onHoldElementalBow(), this);
-        getServer().getPluginManager().registerEvents(new onMachineGunHold(), this);
-        getServer().getPluginManager().registerEvents(new onRightClickForMachineGunBow(), this);
     }
 
     @Override
     public void onDisable() {
         System.out.println("Tiago Utils has stopped!");
+        EnchantmentsManager.unregisterEnchantments();
         onMachineGunHold.clearMachineGunBossBar();
         for (Player player : getServer().getOnlinePlayers()) {
             player.sendMessage(ChatColor.AQUA + "Tiago Utils" + ChatColor.WHITE +" has " + ChatColor.RED + "stopped!");
