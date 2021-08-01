@@ -2,26 +2,33 @@ package me.tiago0liveira.TiagoUtils.commands;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
-import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
-
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
-import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
-import net.md_5.bungee.api.chat.*;
+import me.tiago0liveira.TiagoUtils.helpers.ItemFactory;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods.someEqualsIgnore;
+
 public class ElementalBow extends ChatCommand {
     public static final String commandName = "ElementalBow";
+    public static final ItemStack EXPLOSION_BOW = craftBow(BowType.EXPLOSION);
+    public static final ItemStack TELEPORT_BOW = craftBow(BowType.TELEPORT);
+    public static final ItemStack LIGHTNING_BOW = craftBow(BowType.LIGHTNING);
+
 
     public ElementalBow() {
         super(commandName);
@@ -55,11 +62,11 @@ public class ElementalBow extends ChatCommand {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.ElementalBow)) {
                     if (args.length > 0) {
                         if (args[0].equalsIgnoreCase("explosion")) {
-                            player.getInventory().addItem(giveBow(BowType.EXPLOSION));
+                            player.getInventory().addItem(EXPLOSION_BOW);
                         } else if (args[0].equalsIgnoreCase("teleport")) {
-                            player.getInventory().addItem(giveBow(BowType.TELEPORT));
+                            player.getInventory().addItem(TELEPORT_BOW);
                         } else if (args[0].equalsIgnoreCase("lightning")) {
-                            player.getInventory().addItem(giveBow(BowType.LIGHTNING));
+                            player.getInventory().addItem(LIGHTNING_BOW);
                         } else {
                             player.sendMessage(ChatColor.RED + args[0] + ChatColor.WHITE + " does not exist!");
                             showPossibleElementalbows(player);
@@ -92,25 +99,22 @@ public class ElementalBow extends ChatCommand {
         return new ArrayList<>();
     }
 
-    private static ItemStack giveBow(BowType bowType) {
-        ItemStack Bow = new ItemStack(Material.BOW);
-        ItemMeta itemMeta = Bow.getItemMeta();
-        List<String> Lore = new ArrayList<>();
-        PersistentData.bowType.set(itemMeta, bowType.toString());
+    private static ItemStack craftBow(BowType bowType) {
+        ItemFactory Item = new ItemFactory(Material.BOW)
+                .setDisplayName(getBowName(bowType) + ChatColor.GRAY + " BOW");
         if (bowType.equals(BowType.EXPLOSION)) {
-            itemMeta.setDisplayName(getBowName(bowType) + ChatColor.GRAY + " BOW");
-            Lore.add(ChatColor.DARK_GRAY + "When it lands the arrow makes an " + ChatColor.RED + "explosion" + ChatColor.DARK_GRAY + "!");
+            Item.addLore(ChatColor.DARK_GRAY + "When it lands the arrow makes an " + ChatColor.RED + "explosion" + ChatColor.DARK_GRAY + "!");
         } else if (bowType.equals(BowType.TELEPORT)) {
-            itemMeta.setDisplayName(getBowName(bowType) + ChatColor.GRAY + " BOW");
-            Lore.add(ChatColor.DARK_GRAY + "You " + ChatColor.DARK_PURPLE + "teleport" + ChatColor.DARK_GRAY + " wherever the arrow lands!");
+            Item.addLore(ChatColor.DARK_GRAY + "You " + ChatColor.DARK_PURPLE + "teleport" + ChatColor.DARK_GRAY + " wherever the arrow lands!");
         } else if(bowType.equals(BowType.LIGHTNING)) {
-            itemMeta.setDisplayName(getBowName(bowType) + ChatColor.GRAY + " BOW");
-            Lore.add(ChatColor.DARK_GRAY + "A " + ChatColor.AQUA + "lightning" + ChatColor.DARK_GRAY + " strikes wherever the arrow lands!");
+            Item.addLore(ChatColor.DARK_GRAY + "A " + ChatColor.AQUA + "lightning" + ChatColor.DARK_GRAY + " strikes wherever the arrow lands!");
         }
-        itemMeta.setLore(Lore);
-        Bow.setItemMeta(itemMeta);
 
-        return Bow;
+        return Item.Build((item, meta) -> {
+            PersistentDataManager.bowType.set(meta, bowType.toString());
+            item.setItemMeta(meta);
+            return item;
+        });
     }
     public static String getBowName(BowType bowType) {
         if (bowType.equals(BowType.EXPLOSION)) {
