@@ -33,24 +33,36 @@ public class PermissionsManager {
         config.set(player.getUniqueId().toString() + "." + permissionString, false);
         saveFile();
     }
-    public HashMap<String, Boolean> getAllPermissions(Player player) {
+    public HashMap<String, Boolean> getAllAssignedPermissions(Player player) {
         ConfigurationSection commandSection = config.getConfigurationSection(player.getUniqueId().toString() + "." + Permissions.SectionCommands);
         ConfigurationSection eventSection = config.getConfigurationSection(player.getUniqueId().toString() + "." + Permissions.SectionEvents);
 
-        try {
-            HashMap<String, Boolean> permList = new HashMap<>();
-            if (commandSection != null) {
-                Set<String> commandPerms = commandSection.getKeys(false);
-                for(String s : commandPerms) { permList.put(Permissions.SectionCommands + "." + s, commandSection.getBoolean(s)); };
-            }
-            if (eventSection != null) {
-                Set<String> eventPerms = eventSection.getKeys(false);
-                for(String s : eventPerms) { permList.put(Permissions.SectionEvents + "." + s, eventSection.getBoolean(s)); };
-            }
-            return permList;
-        } catch (NullPointerException e){
-            return null;
+        HashMap<String, Boolean> permList = new HashMap<>();
+        if (commandSection != null) {
+            Set<String> commandPerms = commandSection.getKeys(false);
+            for(String s : commandPerms) { permList.put(Permissions.SectionCommands + "." + s, commandSection.getBoolean(s)); };
         }
+        if (eventSection != null) {
+            Set<String> eventPerms = eventSection.getKeys(false);
+            for(String s : eventPerms) { permList.put(Permissions.SectionEvents + "." + s, eventSection.getBoolean(s)); };
+        }
+        return permList;
+    }
+
+    public TreeMap<String, Boolean> getAllPermissions(Player player) {
+        ConfigurationSection commandSection = config.getConfigurationSection(player.getUniqueId().toString() + "." + Permissions.SectionCommands);
+        ConfigurationSection eventSection = config.getConfigurationSection(player.getUniqueId().toString() + "." + Permissions.SectionEvents);
+
+        HashMap<String, Boolean> permList = new HashMap<>();
+
+        for(String s : Permissions.Commands.commandsList) {
+            permList.put(s, commandSection != null && commandSection.getBoolean(player.getUniqueId().toString() + "." + s));
+        }
+        for(String s : Permissions.Events.eventsList) {
+            permList.put(s, eventSection != null && eventSection.getBoolean(player.getUniqueId().toString() + "." + s));
+        }
+
+        return new TreeMap<>(permList);
     }
 
     public void saveFile() {

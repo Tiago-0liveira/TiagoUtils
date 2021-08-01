@@ -117,12 +117,12 @@ public class Permission extends ChatCommand {
                     sender.sendMessage(ChatColor.DARK_GRAY + "You " + ChatColor.GREEN + "successfully" + ChatColor.DARK_GRAY + " gave " + ChatColor.DARK_AQUA + target.getDisplayName() +  "the permission " + ChatColor.AQUA + perm);
                     target.sendMessage(ChatColor.DARK_GRAY + "You now have " + ChatColor.GREEN + "permission" + ChatColor.DARK_GRAY + " to " + ChatColor.AQUA + perm);
                 } else {
-                    sender.sendMessage(ChatColor.DARK_GRAY + "You " + ChatColor.GREEN + "gave" + ChatColor.DARK_GRAY + " yourself " + ChatColor.DARK_AQUA + target.getDisplayName() +  "the permission " + ChatColor.AQUA + perm);
+                    sender.sendMessage(ChatColor.DARK_GRAY + "You " + ChatColor.GREEN + "gave" + ChatColor.DARK_GRAY + " yourself the permission: " + ChatColor.AQUA + perm);
                 }
                 break;
             case "get":
                 if (perm.equals("all")) {
-                    HashMap<String, Boolean> hashMap = TiagoUtils.PermManager.getAllPermissions(target);
+                    HashMap<String, Boolean> hashMap = TiagoUtils.PermManager.getAllAssignedPermissions(target);
                     if (!hashMap.isEmpty()) {
                         sender.sendMessage(ChatColor.UNDERLINE + "" + ChatColor.AQUA + target.getDisplayName() + ChatColor.DARK_GRAY + "'s " + ChatColor.DARK_GRAY + "permissions" + ChatColor.WHITE + ":");
                         hashMap.forEach((String s, Boolean bool) -> {
