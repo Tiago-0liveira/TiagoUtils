@@ -1,7 +1,7 @@
 package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
-import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,10 +31,10 @@ public class onMachineGunHold implements Listener {
         if (itemHeld != null) {
             if (itemHeld.getType().equals(Material.BOW)) {
                 ItemMeta meta = itemHeld.getItemMeta();
-                if (PersistentData.isMachineGun.has(meta)) {
+                if (PersistentDataManager.isMachineGun.has(meta)) {
                     if (TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.machineGuns)) {
-                        boolean isActive = PersistentData.isMachineGunActive.get(meta);
-                        String bowType = PersistentData.bowType.get(meta);
+                        boolean isActive = PersistentDataManager.isMachineGunActive.get(meta);
+                        String bowType = PersistentDataManager.bowType.get(meta);
                         MachineGunBossBar = Bukkit.createBossBar(meta.getDisplayName() + ChatColor.WHITE + " is " + (isActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.DARK_RED + "DISABLED"), getBarColor(bowType), BarStyle.SOLID);
                         MachineGunBossBar.addPlayer(p);
                     }  else {

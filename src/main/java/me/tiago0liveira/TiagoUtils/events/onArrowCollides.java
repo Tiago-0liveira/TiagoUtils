@@ -2,7 +2,7 @@ package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
-import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class onArrowCollides implements Listener {
                 ItemStack bow = player.getInventory().getItemInMainHand();
                 ItemMeta meta = bow.getItemMeta();
                 if (meta != null) {
-                    String bowType = PersistentData.bowType.get(meta);
+                    String bowType = PersistentDataManager.bowType.get(meta);
                     if (bowType != null) {
                         if (bowType.equals(BowType.EXPLOSION.toString())) {
                             e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), 3.5f);

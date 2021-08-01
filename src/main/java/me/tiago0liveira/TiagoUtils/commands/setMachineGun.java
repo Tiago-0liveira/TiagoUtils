@@ -3,7 +3,7 @@ package me.tiago0liveira.TiagoUtils.commands;
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
-import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import org.bukkit.ChatColor;
@@ -55,12 +55,12 @@ public class setMachineGun extends ChatCommand {
                     if (bow.getType().equals(Material.BOW)) {
                         ItemMeta meta = bow.getItemMeta();
                         if (meta != null) {
-                            if (!PersistentData.isMachineGun.has(meta)) {
-                                PersistentData.isMachineGun.set(meta, true);
-                                PersistentData.isMachineGunActive.set(meta, false);
-                                String bowType = PersistentData.bowType.get(meta);
+                            if (!PersistentDataManager.isMachineGun.has(meta)) {
+                                PersistentDataManager.isMachineGun.set(meta, true);
+                                PersistentDataManager.isMachineGunActive.set(meta, false);
+                                String bowType = PersistentDataManager.bowType.get(meta);
                                 if (bowType == null) {
-                                    PersistentData.bowType.set(meta, "DEFAULT");
+                                    PersistentDataManager.bowType.set(meta, "DEFAULT");
                                     bowType = "default";
                                 }
                                 List<String> Lore;

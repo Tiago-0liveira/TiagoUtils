@@ -2,7 +2,7 @@ package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.BowType;
-import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 
 import org.bukkit.ChatColor;
@@ -23,7 +23,7 @@ public class onHoldElementalBow implements Listener {
         if (!TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.onArrowCollides) && itemHeld != null) {
             if (itemHeld.getType().equals(Material.BOW)) {
                 ItemMeta meta = itemHeld.getItemMeta();
-                if (PersistentData.bowType.has(meta)) {
+                if (PersistentDataManager.bowType.has(meta)) {
                     p.sendMessage("");
                     p.sendMessage(ChatColor.DARK_GRAY + "Elemental Bows are " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + "!");
                     p.sendMessage("");

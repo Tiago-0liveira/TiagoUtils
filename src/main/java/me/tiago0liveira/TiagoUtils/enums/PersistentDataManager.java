@@ -1,13 +1,14 @@
 package me.tiago0liveira.TiagoUtils.enums;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
+import me.tiago0liveira.TiagoUtils.enums.configs.ClickInventoryItemAction;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 
-public class PersistentData {
+public class PersistentDataManager {
     public static class Keys {
         public static final String isMachineGun = "isMachineGun";
         public static final String isMachineGunActive = "isMachineGunActive";
@@ -56,13 +57,13 @@ public class PersistentData {
         }
     }
     public static class clickAction {
-        public static String get(ItemMeta meta) {
+        public static ClickInventoryItemAction get(ItemMeta meta) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            return container.get(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING);
+            return ClickInventoryItemAction.valueOf(container.get(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING));
         }
-        public static void set(ItemMeta meta, String val) {
+        public static void set(ItemMeta meta, ClickInventoryItemAction val) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            container.set(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING, val);
+            container.set(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING, val.toString());
         }
         public static boolean has(ItemMeta meta) {
             PersistentDataContainer container = meta.getPersistentDataContainer();

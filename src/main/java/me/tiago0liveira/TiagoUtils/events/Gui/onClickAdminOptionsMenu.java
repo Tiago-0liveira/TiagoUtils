@@ -1,8 +1,9 @@
 package me.tiago0liveira.TiagoUtils.events.Gui;
 
 import me.tiago0liveira.TiagoUtils.Gui.InventoryFactory;
-import me.tiago0liveira.TiagoUtils.commands.AdminOptions;
-import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
+import me.tiago0liveira.TiagoUtils.enums.configs.ClickInventoryItemAction;
+import me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,19 +20,24 @@ public class onClickAdminOptionsMenu implements Listener {
 
     @EventHandler
     public void onClickAdminOptionMenu(InventoryClickEvent e) {
-        if (e.getView().getTitle().equals(AdminOptions.MenuTitle)) {
+        if (ExtraStringMethods.someEqualsIgnore(InventoryFactory.PreventItemMoveMenuTitles, e.getView().getTitle())) {
             e.setCancelled(true);
             Player player = (Player) e.getWhoClicked();
             ItemStack clickedItem = e.getCurrentItem();
             if (clickedItem != null) {
 
                 ItemMeta clickedItemMeta = clickedItem.getItemMeta();
-                if (clickedItemMeta != null) {
-                    player.sendMessage("onClickAdminOptionsMenu.java|ItemMeta not null");
-                    switch (PersistentData.clickAction.get(clickedItemMeta)) {
-                        case "commandsMenu":
-                            Inventory inv = InventoryFactory.InvBorder54(player, "Commands Menu");
-
+                if (clickedItemMeta != null && PersistentDataManager.clickAction.has(clickedItemMeta)) {
+                    ClickInventoryItemAction clickAction = PersistentDataManager.clickAction.get(clickedItemMeta);
+                    player.sendMessage("click action -> " + clickAction);
+                    switch (clickAction) {
+                        case MenuButton:
+                            Inventory mainMenu = InventoryFactory.mainMenuMenu(player);
+                            player.openInventory(mainMenu);
+                            break;
+                        case CommandsMenu:
+                            Inventory commandsMenu = InventoryFactory.commandsMenu(player);
+                            player.openInventory(commandsMenu);
                             break;
                         case "eventsMenu":
 

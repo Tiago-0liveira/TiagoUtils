@@ -1,12 +1,14 @@
 package me.tiago0liveira.TiagoUtils.events;
 
+import me.tiago0liveira.TiagoUtils.Enchantments.MachineSpeed;
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 
-import me.tiago0liveira.TiagoUtils.enums.PersistentData;
+import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class onRightClickForMachineGunBow implements Listener {
@@ -36,7 +39,7 @@ public class onRightClickForMachineGunBow implements Listener {
             if (bow.getType().equals(Material.BOW)) {
                 ItemMeta meta = bow.getItemMeta();
                 if (meta != null ) {
-                    if (PersistentData.isMachineGun.get(meta)) {
+                    if (PersistentDataManager.isMachineGun.get(meta)) {
                         if (TiagoUtils.options.getConfigurationSection(Default.SectionEvents).getBoolean(Default.events.machineGuns)) {
                             playerUUID = player.getUniqueId();
                             e.setCancelled(true);
@@ -50,7 +53,7 @@ public class onRightClickForMachineGunBow implements Listener {
                                 stopLoop(onUseBow);
                             }
                             player.sendMessage("Machine Gun " + (isMachineGunActive ? ChatColor.GREEN + "ACTIVE" : ChatColor.RED + "DISABLED"));
-                            PersistentData.isMachineGunActive.set(meta, isMachineGunActive);
+                            PersistentDataManager.isMachineGunActive.set(meta, isMachineGunActive);
                             bow.setItemMeta(meta);
                             int BowSlot = player.getInventory().getHeldItemSlot();
                             player.getServer().getPluginManager().callEvent(new PlayerItemHeldEvent(player, BowSlot, BowSlot));
@@ -62,6 +65,14 @@ public class onRightClickForMachineGunBow implements Listener {
     }
     private void startLoop(ItemStack bow) {
         onUseBow = bow;
+        Long gunPeriod = 5L;
+        for(Map.Entry<Enchantment, Integer> e: bow.getEnchantments().entrySet()) {
+            System.out.println(e.getKey().getName() + " -> " + e.getValue());
+        }
+        if (bow.getEnchantments().get(MachineSpeed.Key) != null) {
+            Integer encLvl = bow.getEnchantments().get(MachineSpeed.Key);
+            gunPeriod = (5L)/((long) encLvl *encLvl);
+        }
         machineGunLoop = new BukkitRunnable() {
             @Override
             public void run() {
@@ -85,7 +96,7 @@ public class onRightClickForMachineGunBow implements Listener {
                 }
             }
 
-        }.runTaskTimer(TiagoUtils.getPlugin(), 0L, 5L);
+        }.runTaskTimer(TiagoUtils.getPlugin(), 0L, gunPeriod);
     }
     public static void stopLoop() {
         if (machineGunLoop != null) {
@@ -105,7 +116,7 @@ public class onRightClickForMachineGunBow implements Listener {
                 machineGunLoop = null;
                 ItemMeta meta = bow.getItemMeta();
                 if (meta != null) {
-                    PersistentData.isMachineGunActive.set(meta, false);
+                    PersistentDataManager.isMachineGunActive.set(meta, false);
                     bow.setItemMeta(meta);
                 }
             }
