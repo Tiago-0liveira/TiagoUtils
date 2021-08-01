@@ -4,6 +4,7 @@ import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.ClickInventoryItemAction;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+import me.tiago0liveira.TiagoUtils.helpers.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,9 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +44,9 @@ public class InventoryFactory {
 
     private static Inventory CraftInvBorder54(Player player, String MenuTitle, boolean isMainMenu) {
         Inventory inventory = Bukkit.createInventory(player, 54, MenuTitle);
-        ItemStack border = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta borderMeta = border.getItemMeta();
-        borderMeta.setDisplayName(ChatColor.BLACK + " BORDER ");
-        border.setItemMeta(borderMeta);
+        ItemStack border = new ItemFactory(Material.BLACK_STAINED_GLASS_PANE)
+                .setDisplayName(ChatColor.BLACK + " BORDER ")
+                .Build();
 
         for (int i = 0; i < 9; i++) {
             inventory.setItem(i, border);
@@ -73,12 +71,14 @@ public class InventoryFactory {
     public static Inventory InvBorder54(Player player, String MenuTitle, boolean isMainMenu, boolean playerHead) {
         Inventory inventory = CraftInvBorder54(player, MenuTitle, isMainMenu);
         if (playerHead) {
-            ItemStack PlayerHead = new ItemStack(Material.PLAYER_HEAD);
-            SkullMeta playerHeadItemMeta = (SkullMeta) PlayerHead.getItemMeta();
-            playerHeadItemMeta.setDisplayName(ChatColor.DARK_BLUE + player.getDisplayName());
-            PersistentDataManager.clickAction.set(playerHeadItemMeta, ClickInventoryItemAction.PlayerMenu);
-            playerHeadItemMeta.setOwningPlayer(player);
-            PlayerHead.setItemMeta(playerHeadItemMeta);
+            ItemStack PlayerHead = new ItemFactory(true, player)
+                    .setDisplayName(ChatColor.DARK_BLUE + player.getDisplayName())
+                    .Build((item, meta) -> {
+                        PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.PlayerMenu);
+                        item.setItemMeta(meta);
+                        return item;
+                    });
+
             inventory.setItem(53-4 /*bottom middle*/, PlayerHead);
         }
         return inventory;
@@ -95,37 +95,38 @@ public class InventoryFactory {
     public static Inventory mainMenuMenu(Player player) {
         Inventory inventory = InvBorder54(player, TitleMainMenu, true, true);
         /* Commands */
-        ItemStack commands = new ItemStack(Material.LECTERN);
-        ItemMeta commandsMetaData = commands.getItemMeta();
-        commandsMetaData.setDisplayName(ChatColor.AQUA + "Commands");
-        List<String> commandsLore = new ArrayList<>();
-        commandsLore.add(ChatColor.DARK_GRAY + "Change Commands Settings");
-        commandsMetaData.setLore(commandsLore);
-        PersistentDataManager.clickAction.set(commandsMetaData, ClickInventoryItemAction.CommandsMenu);
-        commands.setItemMeta(commandsMetaData);
+        ItemStack commands = new ItemFactory(Material.LECTERN)
+                .setDisplayName(ChatColor.AQUA + "Commands")
+                .addLore(ChatColor.DARK_GRAY + "Change Commands Settings")
+                .Build((item, meta) -> {
+                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);
+                    item.setItemMeta(meta);
+                    return item;
+                });
         /*
          * Events
          * */
-        ItemStack events = new ItemStack(Material.OBSERVER);
-        ItemMeta eventsMetaData = events.getItemMeta();
-        eventsMetaData.setDisplayName(ChatColor.AQUA + "Events");
-        List<String> eventsLore = new ArrayList<>();
-        eventsLore.add(ChatColor.DARK_GRAY + "Change Events Settings");
-        eventsMetaData.setLore(eventsLore);
-        PersistentDataManager.clickAction.set(eventsMetaData, ClickInventoryItemAction.EventsMenu);
-        events.setItemMeta(eventsMetaData);
+
+        ItemStack events = new ItemFactory(Material.OBSERVER)
+                .setDisplayName(ChatColor.AQUA + "Events")
+                .addLore(ChatColor.DARK_GRAY + "Change Events Settings")
+                .Build((item, meta) -> {
+                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.EventsMenu);
+                    item.setItemMeta(meta);
+                    return item;
+                });
         /*
          * Enchants
          * */
-        ItemStack enchants = new ItemStack(Material.ENCHANTED_BOOK);
-        ItemMeta enchantsMetaData = enchants.getItemMeta();
-        enchantsMetaData.setDisplayName(ChatColor.AQUA + "Custom Enchantments");
-        List<String> enchantsLore = new ArrayList<>();
-        enchantsLore.add(ChatColor.DARK_GRAY + "Add Custom Enchantments");
-        enchantsMetaData.setLore(enchantsLore);
-        PersistentDataManager.clickAction.set(enchantsMetaData, ClickInventoryItemAction.CustomEnchants);
-        enchants.setItemMeta(enchantsMetaData);
 
+        ItemStack enchants = new ItemFactory(Material.ENCHANTED_BOOK)
+                .setDisplayName(ChatColor.AQUA + "Custom Enchantments")
+                .addLore(ChatColor.DARK_GRAY + "Add Custom Enchantments")
+                .Build((item, meta) -> {
+                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CustomEnchants);
+                    item.setItemMeta(meta);
+                    return item;
+                });
 
 
         inventory.setItem(20, commands);
@@ -139,14 +140,15 @@ public class InventoryFactory {
         ConfigurationSection section = TiagoUtils.options.getConfigurationSection(Default.SectionCommands);
         for(String s : section.getKeys(false)) {
             boolean bool = section.getBoolean(s);
-            ItemStack is = new ItemStack(bool ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE);
-            ItemMeta meta = is.getItemMeta();
-            meta.setDisplayName(ChatColor.AQUA + s);
-            List<String> commandsLore = new ArrayList<>();
-            commandsLore.add(bool ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE");
-            meta.setLore(commandsLore);
-            /*PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);*/
-            is.setItemMeta(meta);
+            ItemStack is = new ItemFactory(bool ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE)
+                    .setDisplayName(ChatColor.AQUA + s)
+                    .addLore(bool ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE")
+                    .Build((item, meta) -> {
+                        /*PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);
+                        item.setItemMeta(meta);*/
+                        return item;
+                    });
+
             inventory.addItem(is);
         }
         return inventory;
@@ -156,15 +158,15 @@ public class InventoryFactory {
         ConfigurationSection section = TiagoUtils.options.getConfigurationSection(Default.SectionEvents);
         for(String s : section.getKeys(false)) {
             boolean bool = section.getBoolean(s);
+            ItemStack is = new ItemFactory(bool ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE)
+                    .setDisplayName(ChatColor.AQUA + s)
+                    .addLore(bool ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE")
+                    .Build((item, meta) -> {
+                        /*PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.EventsMenu);
+                        item.setItemMeta(meta);*/
+                        return item;
+                    });
 
-            ItemStack is = new ItemStack(bool ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE);
-            ItemMeta meta = is.getItemMeta();
-            meta.setDisplayName(ChatColor.AQUA + s);
-            List<String> eventsLore = new ArrayList<>();
-            eventsLore.add(bool ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE");
-            meta.setLore(eventsLore);
-            /*PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.EventsMenu);*/
-            is.setItemMeta(meta);
             inventory.addItem(is);
         }
         return inventory;
@@ -173,14 +175,15 @@ public class InventoryFactory {
         /* AND MAYBE SKILLS ?? OR STATS ?? */
         Inventory inventory = InvBorder54(player, TitleMenuPlayer, false);
         for(Map.Entry<String, Boolean> e : TiagoUtils.PermManager.getAllPermissions(player).entrySet()) {
-            ItemStack is = new ItemStack(e.getValue() ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE);
-            ItemMeta meta = is.getItemMeta();
-            meta.setDisplayName(ChatColor.AQUA + e.getKey());
-            List<String> commandsLore = new ArrayList<>();
-            commandsLore.add(e.getValue() ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE");
-            meta.setLore(commandsLore);
-            /*PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);*/
-            is.setItemMeta(meta);
+            ItemStack is = new ItemFactory(e.getValue() ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE)
+                    .setDisplayName(ChatColor.AQUA + e.getKey())
+                    .addLore(e.getValue() ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE")
+                    .Build((item, meta) -> {
+                        PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);
+                        item.setItemMeta(meta);
+                        return item;
+                    });
+
             inventory.addItem(is);
         }
 
