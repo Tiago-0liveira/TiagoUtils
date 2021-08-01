@@ -1,14 +1,14 @@
 package me.tiago0liveira.TiagoUtils.commands;
 
+import me.tiago0liveira.TiagoUtils.Gui.InventoryFactory;
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
 import me.tiago0liveira.TiagoUtils.enums.Permissions;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import me.tiago0liveira.TiagoUtils.helpers.ChatCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Inventory;
 
 public class opEnchant extends ChatCommand {
     public static final String commandName = "opEnchant";
@@ -39,11 +39,8 @@ public class opEnchant extends ChatCommand {
 
             if (TiagoUtils.PermManager.hasPermission(player, Permissions.Commands.opEnchant) || player.isOp()) {
                 if (TiagoUtils.options.getConfigurationSection(Default.SectionCommands).getBoolean(Default.commands.opEnchant)) {
-                    ItemStack tool = player.getInventory().getItemInMainHand();
-                    if (tool.getType().name().equalsIgnoreCase("STICK")) {
-                        tool.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 20);
-                        tool.addUnsafeEnchantment(Enchantment.KNOCKBACK, 20);
-                    }
+                    Inventory inventory = InventoryFactory.customEnchants(player);
+                    player.openInventory(inventory);
                 } else {
                     player.sendMessage(ChatColor.DARK_GRAY + "The command "+ ChatColor.WHITE + "opEnchant" + ChatColor.DARK_GRAY + " is " + ChatColor.RED + "disabled" + ChatColor.DARK_GRAY + " atm!");
                 }
