@@ -31,12 +31,12 @@ public class ItemFactory {
             throw new Error("ItemStack can only have from 1-64 items!");
         }
     }
-    public ItemFactory(boolean PlayerHead, Player player) throws Exception {
+    public ItemFactory(boolean PlayerHead, Player player) {
         if (PlayerHead) {
             this.mat = Material.PLAYER_HEAD;
             this.OwningPlayer = player;
         } else {
-            throw new Exception("Dumb boolean with FALSE value!!\nYou want the skull or u don't ?");
+            throw new Error("Dumb boolean with FALSE value!!\nYou want the skull or u don't ?");
         }
     }
     public ItemFactory(ItemStack item) {
