@@ -39,6 +39,19 @@ public class ItemFactory {
             throw new Exception("Dumb boolean with FALSE value!!\nYou want the skull or u don't ?");
         }
     }
+    public ItemFactory(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        this.mat = item.getType();
+        this.Amount = item.getAmount();
+        try {
+            this.DisplayName = meta.getDisplayName();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        this.Lore = meta.getLore();
+        this.Enchantments = (HashMap<Enchantment, Integer>) item.getEnchantments();
+        if (this.mat == Material.PLAYER_HEAD) this.OwningPlayer = (Player) ((SkullMeta) meta).getOwningPlayer();
+    }
 
     public ItemFactory setAmount(Integer Amount) {
         if (Amount != 1 && Amount <= 64 && Amount > 0) {
