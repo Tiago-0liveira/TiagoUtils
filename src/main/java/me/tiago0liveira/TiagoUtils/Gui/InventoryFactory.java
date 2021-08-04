@@ -25,6 +25,9 @@ public class InventoryFactory {
     public static final String TitleMenuPlayer;
     public static final String TitleMenuCustomEnchants;
     public static final List<String> PreventItemMoveMenuTitles;
+    public static final ItemStack border = new ItemFactory(Material.BLACK_STAINED_GLASS_PANE)
+            .setDisplayName(ChatColor.BLACK + " BORDER ")
+            .Build();
 
     static {
         TitleMainMenu = "Tiago Utils Menu";
@@ -44,10 +47,6 @@ public class InventoryFactory {
 
     private static Inventory CraftInvBorder54(Player player, String MenuTitle, boolean isMainMenu) {
         Inventory inventory = Bukkit.createInventory(player, 54, MenuTitle);
-        ItemStack border = new ItemFactory(Material.BLACK_STAINED_GLASS_PANE)
-            .setDisplayName(ChatColor.BLACK + " BORDER ")
-            .Build();
-
         for (int i = 0; i < 9; i++) {
             inventory.setItem(i, border);
         }
@@ -58,11 +57,9 @@ public class InventoryFactory {
             inventory.setItem(i*9, border);
             inventory.setItem((i*9)+8, border);
         }
-
         if (!isMainMenu) {
             setMenuButton(inventory);
         }
-
         return inventory;
     }
     public static Inventory InvBorder54(Player player, String MenuTitle, boolean isMainMenu) {
