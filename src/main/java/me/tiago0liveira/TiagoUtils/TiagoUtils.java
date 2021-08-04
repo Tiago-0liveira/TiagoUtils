@@ -1,8 +1,6 @@
 package me.tiago0liveira.TiagoUtils;
 
-import me.tiago0liveira.TiagoUtils.commands.*;
 import me.tiago0liveira.TiagoUtils.events.*;
-import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
 import me.tiago0liveira.TiagoUtils.helpers.CommandsManager;
 import me.tiago0liveira.TiagoUtils.helpers.EnchantmentsManager;
 import me.tiago0liveira.TiagoUtils.helpers.EventsManager;
