@@ -1,22 +1,28 @@
 package me.tiago0liveira.TiagoUtils.enums.configs;
 
 public enum ClickInventoryItemAction {
+    /* Menus */
     MenuButton,
     CommandsMenu,
     EventsMenu,
     PlayerMenu,
-    CustomEnchants;
+    CustomEnchants,
 
-    public enum CommandsMenu {
+    /* Commands Menu */
+    ElementalBow,
+    Fly,
+    God,
+    Heal,
+    Home,
+    opEnchant,
+    setMachineGun,
 
-    }
-    public enum EventsMenu {
+    /* Events Menu */
+    onArrowCollides,
+    onBadWeather,
+    machineGuns;
 
-    }
-    public enum PlayerMenu {
+    /* Player Menu */
 
-    }
-    public enum CustomEnchants {
-
-    }
+    /* Custom Enchants */
 }

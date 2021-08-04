@@ -14,6 +14,7 @@ public class PersistentDataManager {
         public static final String isMachineGunActive = "isMachineGunActive";
         public static final String BowType = "bowType";
         public static final String ClickAction = "clickAction";
+        public static final String ActionValue = "ActionValue";
     }
     public static class isMachineGun {
         public static boolean get(ItemMeta meta) {
@@ -68,6 +69,16 @@ public class PersistentDataManager {
         public static boolean has(ItemMeta meta) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
             return container.has(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING);
+        }
+    }
+    public static class ActionValue {
+        public static boolean get(ItemMeta meta) {
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            return container.get(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ActionValue), PersistentDataType.BYTE) == (byte) 1;
+        }
+        public static void set(ItemMeta meta, boolean val) {
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            container.set(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ActionValue), PersistentDataType.BYTE, val ? (byte) 1 : (byte) 0);
         }
     }
 }

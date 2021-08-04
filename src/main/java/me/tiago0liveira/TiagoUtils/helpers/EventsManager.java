@@ -1,8 +1,11 @@
 package me.tiago0liveira.TiagoUtils.helpers;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
-import me.tiago0liveira.TiagoUtils.events.*;
 import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
+import me.tiago0liveira.TiagoUtils.events.Gui.onClickCommandsSettingsMenu;
+import me.tiago0liveira.TiagoUtils.events.Gui.onClickCustomEnchantmentsMenu;
+import me.tiago0liveira.TiagoUtils.events.Gui.onClickEventsSettingsMenu;
+import me.tiago0liveira.TiagoUtils.events.*;
 import org.bukkit.event.Listener;
 
 import java.util.Arrays;
@@ -12,6 +15,9 @@ public class EventsManager {
 
     public static final List<Listener> Events = Arrays.asList(
         new onClickAdminOptionsMenu(),
+        new onClickCommandsSettingsMenu(),
+        new onClickCustomEnchantmentsMenu(),
+        new onClickEventsSettingsMenu(),
         new onArrowCollides(),
         new onBadWeather(),
         new onHoldElementalBow(),

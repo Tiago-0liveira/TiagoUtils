@@ -7,9 +7,7 @@ import me.tiago0liveira.TiagoUtils.helpers.ExtraStringMethods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,10 +19,9 @@ public class onClickAdminOptionsMenu implements Listener {
         if (ExtraStringMethods.someEqualsIgnore(InventoryFactory.PreventItemMoveMenuTitles, e.getView().getTitle())) {
             e.setCancelled(true);
             Player player = (Player) e.getWhoClicked();
-            if(e.getClick().equals(ClickType.SWAP_OFFHAND)) player.updateInventory();
             ItemStack clickedItem = e.getCurrentItem();
 
-            if (clickedItem != null && e.getClickedInventory().getType().equals(InventoryType.CHEST)) {
+            if (clickedItem != null) {
                 ItemMeta clickedItemMeta = clickedItem.getItemMeta();
                 if (clickedItemMeta != null && PersistentDataManager.clickAction.has(clickedItemMeta)) {
                     ClickInventoryItemAction clickAction = PersistentDataManager.clickAction.get(clickedItemMeta);
