@@ -2,7 +2,6 @@ package me.tiago0liveira.TiagoUtils.events;
 
 import me.tiago0liveira.TiagoUtils.Enchantments.MachineSpeed;
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
-
 import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.Default;
 import org.bukkit.ChatColor;
@@ -36,6 +35,7 @@ public class onRightClickForMachineGunBow implements Listener {
         Player player = e.getPlayer();
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
             ItemStack bow = player.getInventory().getItemInMainHand();
+
             if (bow.getType().equals(Material.BOW)) {
                 ItemMeta meta = bow.getItemMeta();
                 if (meta != null ) {
