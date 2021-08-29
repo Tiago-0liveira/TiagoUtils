@@ -32,6 +32,7 @@ public final class TiagoUtils extends JavaPlugin {
         * DONE: home/setHome
         * DONE: Full permissions system done
         * DONE: maybe Command Factory ? for simplicity creating commands ??
+        * TODO: refresh menu or item when updated permission (default config)
         * TODO: MAYBE CRAFTING FOR BOWS ??? AND ENCHANTS ??
         * TODO: dropped items holograms
         * TODO: enchantment menu (ops included)
@@ -65,5 +66,6 @@ public final class TiagoUtils extends JavaPlugin {
         for (Player player : getServer().getOnlinePlayers()) {
             player.sendMessage(ChatColor.AQUA + "Tiago Utils" + ChatColor.WHITE +" has " + ChatColor.RED + "stopped!");
         }
+        saveConfig();
     }
 }
