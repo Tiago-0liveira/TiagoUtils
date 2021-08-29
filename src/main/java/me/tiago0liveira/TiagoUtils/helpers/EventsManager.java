@@ -1,10 +1,7 @@
 package me.tiago0liveira.TiagoUtils.helpers;
 
 import me.tiago0liveira.TiagoUtils.TiagoUtils;
-import me.tiago0liveira.TiagoUtils.events.Gui.onClickAdminOptionsMenu;
-import me.tiago0liveira.TiagoUtils.events.Gui.onClickCommandsSettingsMenu;
-import me.tiago0liveira.TiagoUtils.events.Gui.onClickCustomEnchantmentsMenu;
-import me.tiago0liveira.TiagoUtils.events.Gui.onClickEventsSettingsMenu;
+import me.tiago0liveira.TiagoUtils.events.Gui.*;
 import me.tiago0liveira.TiagoUtils.events.*;
 import org.bukkit.event.Listener;
 
@@ -18,6 +15,7 @@ public class EventsManager {
         new onClickCommandsSettingsMenu(),
         new onClickCustomEnchantmentsMenu(),
         new onClickEventsSettingsMenu(),
+        new onClickPlayerMenu(),
         new onArrowCollides(),
         new onBadWeather(),
         new onHoldElementalBow(),
@@ -29,5 +27,4 @@ public class EventsManager {
             TiagoUtils.getPlugin().getServer().getPluginManager().registerEvents(e, TiagoUtils.getPlugin());
         }
     }
-
 }

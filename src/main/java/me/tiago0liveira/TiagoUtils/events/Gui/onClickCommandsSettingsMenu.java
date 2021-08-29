@@ -3,6 +3,9 @@ package me.tiago0liveira.TiagoUtils.events.Gui;
 import me.tiago0liveira.TiagoUtils.Gui.InventoryFactory;
 import me.tiago0liveira.TiagoUtils.enums.PersistentDataManager;
 import me.tiago0liveira.TiagoUtils.enums.configs.ClickInventoryItemAction;
+import me.tiago0liveira.TiagoUtils.enums.configs.Default;
+import me.tiago0liveira.TiagoUtils.helpers.RandomHelpers;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,38 +24,41 @@ public class onClickCommandsSettingsMenu implements Listener {
 
             if (clickedItem != null) {
                 ItemMeta clickedItemMeta = clickedItem.getItemMeta();
-                if (clickedItemMeta != null && PersistentDataManager.clickAction.has(clickedItemMeta)) {
-                    ClickInventoryItemAction clickAction = PersistentDataManager.clickAction.get(clickedItemMeta);
-                    player.sendMessage("click action -> " + clickAction);
-                    switch (clickAction) {
-                        case ElementalBow:
+                if (clickedItemMeta != null) {
+                    String unparsedClickAction = PersistentDataManager.clickAction.get(clickedItemMeta);
+                    boolean bool = !RandomHelpers.mainMenuClicked(clickedItemMeta, player);
+                    if (bool && PersistentDataManager.clickAction.has(clickedItemMeta)) {
+                        ClickInventoryItemAction.CommandsMenu clickAction = ClickInventoryItemAction.getItemAction(unparsedClickAction);
+                        boolean ActionValue = PersistentDataManager.ActionValue.get(clickedItemMeta);
+                        switch (clickAction) {
+                            case ElementalBow:
+                                RandomHelpers.setGlobalPermission(Default.SectionCommands, Default.commands.ElementalBow, !ActionValue);
+                                break;
+                            case Fly:
+                                RandomHelpers.setGlobalPermission(Default.SectionCommands, Default.commands.Fly, !ActionValue);
+                                break;
+                            case God:
+                                RandomHelpers.setGlobalPermission(Default.SectionCommands, Default.commands.God, !ActionValue);
+                                break;
+                            case Heal:
+                                RandomHelpers.setGlobalPermission(Default.SectionCommands, Default.commands.Heal, !ActionValue);
+                                break;
+                            case Home:
+                                RandomHelpers.setGlobalPermission(Default.SectionCommands, Default.commands.Home, !ActionValue);
+                                break;
+                            case opEnchant:
+                                RandomHelpers.setGlobalPermission(Default.SectionCommands, Default.commands.opEnchant, !ActionValue);
+                                break;
+                            case setMachineGun:
+                                RandomHelpers.setGlobalPermission(Default.SectionCommands, Default.commands.setMachineGun, !ActionValue);
+                                break;
+                            default:
+                                player.sendMessage(ChatColor.RED + "ERROR" + ChatColor.DARK_GRAY + " | " + ChatColor.WHITE + "onClickCommandsSettingsMenu, values (clickAction, ActionValue)-> " + clickAction + " -- " + ActionValue);
+                                break;
+                        }
 
-                            break;
-                        case Fly:
-
-                            break;
-                        case God:
-
-                            break;
-                        case Heal:
-
-                            break;
-                        case Home:
-
-                            break;
-                        case opEnchant:
-
-                            break;
-                        case setMachineGun:
-
-                            break;
-                        default:
-                            player.sendMessage("default");
-                            break;
                     }
                 }
-            } else {
-                player.sendMessage("onClickAdminOptionsMenu.java|clicked Item null");
             }
         }
     }

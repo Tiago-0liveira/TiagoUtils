@@ -21,39 +21,38 @@ public class onClickAdminOptionsMenu implements Listener {
             Player player = (Player) e.getWhoClicked();
             ItemStack clickedItem = e.getCurrentItem();
 
-            if (clickedItem != null) {
-                ItemMeta clickedItemMeta = clickedItem.getItemMeta();
-                if (clickedItemMeta != null && PersistentDataManager.clickAction.has(clickedItemMeta)) {
-                    ClickInventoryItemAction clickAction = PersistentDataManager.clickAction.get(clickedItemMeta);
-                    player.sendMessage("click action -> " + clickAction);
-                    switch (clickAction) {
-                        case MenuButton:
-                            Inventory mainMenu = InventoryFactory.mainMenuMenu(player);
-                            player.openInventory(mainMenu);
-                            break;
-                        case CommandsMenu:
-                            Inventory commandsMenu = InventoryFactory.commandsMenu(player);
-                            player.openInventory(commandsMenu);
-                            break;
-                        case EventsMenu:
-                            Inventory eventsMenu = InventoryFactory.eventsMenu(player);
-                            player.openInventory(eventsMenu);
-                            break;
-                        case PlayerMenu:
-                            Inventory playerMenu = InventoryFactory.playerMenu(player);
-                            player.openInventory(playerMenu);
-                            break;
-                        case CustomEnchants:
-                            Inventory customEnchants = InventoryFactory.customEnchants(player);
-                            player.openInventory(customEnchants);
-                            break;
-                        default:
-                            player.sendMessage("default");
-                            break;
+            if (e.getView().getTitle().equals(InventoryFactory.TitleMainMenu)) {
+                if (clickedItem != null) {
+                    ItemMeta clickedItemMeta = clickedItem.getItemMeta();
+                    if (clickedItemMeta != null && PersistentDataManager.clickAction.has(clickedItemMeta)) {
+                        String unparsedClickAction = PersistentDataManager.clickAction.get(clickedItemMeta);
+                        ClickInventoryItemAction.Menus clickAction = ClickInventoryItemAction.getItemAction(unparsedClickAction);
+                        switch (clickAction) {
+                            case MenuButton:
+                                Inventory mainMenu = InventoryFactory.mainMenuMenu(player);
+                                player.openInventory(mainMenu);
+                                break;
+                            case CommandsMenu:
+                                Inventory commandsMenu = InventoryFactory.commandsMenu(player);
+                                player.openInventory(commandsMenu);
+                                break;
+                            case EventsMenu:
+                                Inventory eventsMenu = InventoryFactory.eventsMenu(player);
+                                player.openInventory(eventsMenu);
+                                break;
+                            case PlayerMenu:
+                                Inventory playerMenu = InventoryFactory.playerMenu(player);
+                                player.openInventory(playerMenu);
+                                break;
+                            case CustomEnchants:
+                                Inventory customEnchants = InventoryFactory.customEnchants(player);
+                                player.openInventory(customEnchants);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
-            } else {
-                player.sendMessage("onClickAdminOptionsMenu.java|clicked Item null");
             }
         }
     }
