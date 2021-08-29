@@ -64,7 +64,6 @@ public class PermissionsManager {
 
         return new TreeMap<>(permList);
     }
-
     public void saveFile() {
         try {
             config.save(file);
