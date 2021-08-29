@@ -58,13 +58,13 @@ public class PersistentDataManager {
         }
     }
     public static class clickAction {
-        public static ClickInventoryItemAction get(ItemMeta meta) {
+        public static String get(ItemMeta meta) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            return ClickInventoryItemAction.valueOf(container.get(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING));
+            return container.get(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING);
         }
-        public static void set(ItemMeta meta, ClickInventoryItemAction val) {
+        public static <T> void set(ItemMeta meta, ClickInventoryItemAction.Prefix prefix, T action) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            container.set(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING, val.toString());
+            container.set(new NamespacedKey(TiagoUtils.getPlugin(), Keys.ClickAction), PersistentDataType.STRING, prefix.toString() + ":" + action.toString());
         }
         public static boolean has(ItemMeta meta) {
             PersistentDataContainer container = meta.getPersistentDataContainer();

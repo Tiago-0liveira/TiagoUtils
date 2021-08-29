@@ -71,7 +71,7 @@ public class InventoryFactory {
             ItemStack PlayerHead = new ItemFactory(true, player)
                 .setDisplayName(ChatColor.DARK_BLUE + player.getDisplayName())
                 .Build((item, meta) -> {
-                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.PlayerMenu);
+                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.menu, ClickInventoryItemAction.Menus.PlayerMenu);
                     item.setItemMeta(meta);
                     return item;
                 });
@@ -84,7 +84,7 @@ public class InventoryFactory {
         ItemStack is = new ItemStack(Material.BARRIER);
         ItemMeta meta = is.getItemMeta();
         meta.setDisplayName(ChatColor.RED + "MENU");
-        PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.MenuButton);
+        PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.menu, ClickInventoryItemAction.Menus.MenuButton);
         is.setItemMeta(meta);
         inventory.setItem(54-9 /*bottom left*/,is);
     }
@@ -96,7 +96,7 @@ public class InventoryFactory {
             .setDisplayName(ChatColor.AQUA + "Commands")
             .addLore(ChatColor.DARK_GRAY + "Change Commands Settings")
             .Build((item, meta) -> {
-                PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);
+                PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.menu, ClickInventoryItemAction.Menus.CommandsMenu);
                 item.setItemMeta(meta);
                 return item;
             });
@@ -108,7 +108,7 @@ public class InventoryFactory {
             .setDisplayName(ChatColor.AQUA + "Events")
             .addLore(ChatColor.DARK_GRAY + "Change Events Settings")
             .Build((item, meta) -> {
-                PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.EventsMenu);
+                PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.menu ,ClickInventoryItemAction.Menus.EventsMenu);
                 item.setItemMeta(meta);
                 return item;
             });
@@ -120,7 +120,7 @@ public class InventoryFactory {
             .setDisplayName(ChatColor.AQUA + "Custom Enchantments")
             .addLore(ChatColor.DARK_GRAY + "Add Custom Enchantments")
             .Build((item, meta) -> {
-                PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CustomEnchants);
+                PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.menu ,ClickInventoryItemAction.Menus.CustomEnchants);
                 item.setItemMeta(meta);
                 return item;
             });
@@ -133,7 +133,7 @@ public class InventoryFactory {
         return inventory;
     }
     public static Inventory commandsMenu(Player player) {
-        Inventory inventory = InvBorder54(player, TitleMenuCommands, false, true);
+        Inventory inventory = InvBorder54(player, TitleMenuCommands, false);
         ConfigurationSection section = TiagoUtils.options.getConfigurationSection(Default.SectionCommands);
         for(String s : section.getKeys(false)) {
             boolean bool = section.getBoolean(s);
@@ -141,8 +141,9 @@ public class InventoryFactory {
                 .setDisplayName(ChatColor.AQUA + s)
                 .addLore(bool ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE")
                 .Build((item, meta) -> {
-                    /*PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);
-                    item.setItemMeta(meta);*/
+                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.commandsMenu ,ClickInventoryItemAction.CommandsMenu.valueOf(s));
+                    PersistentDataManager.ActionValue.set(meta, bool);
+                    item.setItemMeta(meta);
                     return item;
                 });
 
@@ -159,8 +160,8 @@ public class InventoryFactory {
                 .setDisplayName(ChatColor.AQUA + s)
                 .addLore(bool ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE")
                 .Build((item, meta) -> {
-                    /*PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.EventsMenu);
-                    item.setItemMeta(meta);*/
+                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.eventsMenu ,ClickInventoryItemAction.EventsMenu.valueOf(s));
+                    PersistentDataManager.ActionValue.set(meta, bool);
                     return item;
                 });
 
@@ -176,7 +177,7 @@ public class InventoryFactory {
                 .setDisplayName(ChatColor.AQUA + e.getKey())
                 .addLore(e.getValue() ? ChatColor.GREEN + "TRUE" : ChatColor.RED + "FALSE")
                 .Build((item, meta) -> {
-                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.CommandsMenu);
+                    PersistentDataManager.clickAction.set(meta, ClickInventoryItemAction.Prefix.commandsMenu ,ClickInventoryItemAction.Menus.CommandsMenu);
                     item.setItemMeta(meta);
                     return item;
                 });
